@@ -9,5 +9,7 @@ public class Magus {
                 " |_|  |_| /_/    \\_\\  \\_____|  \\____/  |_____/ \n";
         System.out.println(logo);
         System.out.println("Hello I'm Magus");
+        System.out.println("What can I do for you?");
+        System.out.println("Bye. Hope to see you again soon!");
     }
 }
