@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Magus {
     public static void main(String[] args) {
         String logo =
@@ -10,6 +12,14 @@ public class Magus {
         System.out.println(logo);
         System.out.println("Hello I'm Magus");
         System.out.println("What can I do for you?");
+
+        String userInput = "";
+        Scanner in = new Scanner(System.in);
+        while (!userInput.equals("bye")) {
+            userInput = in.nextLine();
+            System.out.println(userInput);
+        }
+
         System.out.println("Bye. Hope to see you again soon!");
     }
 }
