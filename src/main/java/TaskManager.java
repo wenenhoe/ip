@@ -19,8 +19,8 @@ public class TaskManager {
     }
 
     public void addTask(String description) {
-        Task t = new Task(description);
-        taskList.add(t);
+        Task task = new Task(description);
+        taskList.add(task);
         System.out.println("\tadded: " + description);
     }
 
@@ -31,11 +31,12 @@ public class TaskManager {
         }
 
         try {
-            Task t = taskList.get(taskNum - 1);
-            t.markAsDone();
+            Task task = taskList.get(taskNum - 1);
+            task.markAsDone();
             System.out.println("\tNice! I've marked this task as done:");
-            System.out.println("\t  " + t.toString());
+            System.out.println("\t  " + task.toString());
         } catch (IndexOutOfBoundsException ignored) {
+            // Outside range of task list, unable to modify task status
         }
     }
 
@@ -46,11 +47,12 @@ public class TaskManager {
         }
 
         try {
-            Task t = taskList.get(taskNum - 1);
-            t.unmarkAsNotDone();
+            Task task = taskList.get(taskNum - 1);
+            task.unmarkAsNotDone();
             System.out.println("\tOK, I've marked this task as not done yet:");
-            System.out.println("\t  " + t.toString());
+            System.out.println("\t  " + task.toString());
         } catch (IndexOutOfBoundsException ignored) {
+            // Outside range of task list, unable to modify task status
         }
     }
 
