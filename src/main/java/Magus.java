@@ -43,9 +43,25 @@ public class Magus {
                 System.out.println("Bye. Hope to see you again soon!");
                 return;
             default:
-                Task t = new Task(userInput);
-                taskList.add(t);
-                System.out.println("\tadded: " + userInput);
+                if (userInput.startsWith("mark ")) {
+                    userInput = userInput.replace("mark ", "");
+                    int taskNum = Integer.parseInt(userInput);
+                    Task t = taskList.get(taskNum - 1);
+                    t.markAsDone();
+                    System.out.println("\tNice! I've marked this task as done:");
+                    System.out.println("\t  " + t.toString());
+                } else if (userInput.startsWith("unmark ")) {
+                    userInput = userInput.replace("unmark ", "");
+                    int taskNum = Integer.parseInt(userInput);
+                    Task t = taskList.get(taskNum - 1);
+                    t.unmarkAsNotDone();
+                    System.out.println("\tOK, I've marked this task as not done yet:");
+                    System.out.println("\t  " + t.toString());
+                } else {
+                    Task t = new Task(userInput);
+                    taskList.add(t);
+                    System.out.println("\tadded: " + userInput);
+                }
             }
         }
     }
