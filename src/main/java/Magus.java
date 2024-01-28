@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class Magus {
     public static void main(String[] args) {
+        String separator = "-----------------------------------------------";
         String logo =
                 "  __  __               _____   _    _    _____ \n" +
                 " |  \\/  |     /\\      / ____| | |  | |  / ____|\n" +
@@ -19,14 +20,16 @@ public class Magus {
         String userInput = "";
         Scanner in = new Scanner(System.in);
         while (!userInput.equals("bye")) {
+            System.out.println(separator);
+            System.out.print("> ");
             userInput = in.nextLine().strip();
 
             if (userInput.contains(" ")) {
                 todoList[todoCount++] = userInput;
-                System.out.println("added: " + userInput);
+                System.out.println("\tadded: " + userInput);
             } else if (userInput.equals("list")) {
                 for (int i = 0; i < todoCount; i++) {
-                    System.out.println((i + 1) + ". " + todoList[i]);
+                    System.out.println("\t" + (i + 1) + ". " + todoList[i]);
                 }
             }
         }
