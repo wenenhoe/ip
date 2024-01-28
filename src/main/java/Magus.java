@@ -13,11 +13,22 @@ public class Magus {
         System.out.println("Hello I'm Magus");
         System.out.println("What can I do for you?");
 
+        String[] todoList = new String[100];
+        int todoCount = 0;
+
         String userInput = "";
         Scanner in = new Scanner(System.in);
         while (!userInput.equals("bye")) {
-            userInput = in.nextLine();
-            System.out.println(userInput);
+            userInput = in.nextLine().strip();
+
+            if (userInput.contains(" ")) {
+                todoList[todoCount++] = userInput;
+                System.out.println("added: " + userInput);
+            } else if (userInput.equals("list")) {
+                for (int i = 0; i < todoCount; i++) {
+                    System.out.println((i + 1) + ". " + todoList[i]);
+                }
+            }
         }
 
         System.out.println("Bye. Hope to see you again soon!");
