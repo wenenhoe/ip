@@ -26,22 +26,40 @@ public class TaskManager {
 
     public void markTaskAsDone(String userInput) {
         int taskNum = parseUserInput(userInput, "mark ");
-        Task t = taskList.get(taskNum - 1);
-        t.markAsDone();
-        System.out.println("\tNice! I've marked this task as done:");
-        System.out.println("\t  " + t.toString());
+        if (taskNum <= 0) {
+            return;
+        }
+
+        try {
+            Task t = taskList.get(taskNum - 1);
+            t.markAsDone();
+            System.out.println("\tNice! I've marked this task as done:");
+            System.out.println("\t  " + t.toString());
+        } catch (IndexOutOfBoundsException ignored) {
+        }
     }
 
     public void unmarkTaskAsNotDone(String userInput) {
         int taskNum = parseUserInput(userInput, "unmark ");
-        Task t = taskList.get(taskNum - 1);
-        t.unmarkAsNotDone();
-        System.out.println("\tOK, I've marked this task as not done yet:");
-        System.out.println("\t  " + t.toString());
+        if (taskNum <= 0) {
+            return;
+        }
+
+        try {
+            Task t = taskList.get(taskNum - 1);
+            t.unmarkAsNotDone();
+            System.out.println("\tOK, I've marked this task as not done yet:");
+            System.out.println("\t  " + t.toString());
+        } catch (IndexOutOfBoundsException ignored) {
+        }
     }
 
     private int parseUserInput(String userInput, String actionType) {
         userInput = userInput.replace(actionType, "");
-        return Integer.parseInt(userInput);
+        try {
+            return Integer.parseInt(userInput);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 }
