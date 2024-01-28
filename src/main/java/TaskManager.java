@@ -25,7 +25,7 @@ public class TaskManager {
     }
 
     public void markTaskAsDone(String userInput) {
-        int taskNum = parseUserInput(userInput, "mark ");
+        int taskNum = TaskManager.parseUserInput(userInput, "mark ");
         if (taskNum <= 0) {
             return;
         }
@@ -41,7 +41,7 @@ public class TaskManager {
     }
 
     public void unmarkTaskAsNotDone(String userInput) {
-        int taskNum = parseUserInput(userInput, "unmark ");
+        int taskNum = TaskManager.parseUserInput(userInput, "unmark ");
         if (taskNum <= 0) {
             return;
         }
@@ -56,7 +56,7 @@ public class TaskManager {
         }
     }
 
-    private int parseUserInput(String userInput, String actionType) {
+    private static int parseUserInput(String userInput, String actionType) {
         userInput = userInput.replace(actionType, "");
         try {
             return Integer.parseInt(userInput);
