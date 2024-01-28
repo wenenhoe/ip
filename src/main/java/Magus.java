@@ -35,12 +35,14 @@ public class Magus {
             System.out.print("> ");
             userInput = in.nextLine().strip();
 
-            if (userInput.equals("list")) {
+            switch (userInput) {
+            case "list":
                 printTaskList(taskList);
-            } else if (userInput.equals("bye")) {
-                System.out.println("Bye. Hope to see you again soon!");
                 break;
-            } else {
+            case "bye":
+                System.out.println("Bye. Hope to see you again soon!");
+                return;
+            default:
                 Task t = new Task(userInput);
                 taskList.add(t);
                 System.out.println("\tadded: " + userInput);
