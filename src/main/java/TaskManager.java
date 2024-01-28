@@ -9,12 +9,11 @@ public class TaskManager {
     }
 
     public void printTaskList() {
-        Task[] tasks = taskList.toArray(new Task[0]);
-
         int taskNum = 1;
         System.out.println("\tHere are the tasks in your list:");
-        for (Task task : tasks) {
-            System.out.println("\t" + taskNum++ + "." + task.toString());
+        for (Task task : taskList) {
+            System.out.println("\t" + taskNum + "." + task.toString());
+            taskNum++;
         }
     }
 
