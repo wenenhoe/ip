@@ -19,21 +19,22 @@ public class Magus {
 
         String userInput = "";
         Scanner in = new Scanner(System.in);
-        while (!userInput.equals("bye")) {
+        while (true) {
             System.out.println(separator);
             System.out.print("> ");
             userInput = in.nextLine().strip();
 
-            if (userInput.contains(" ")) {
-                todoList[todoCount++] = userInput;
-                System.out.println("\tadded: " + userInput);
-            } else if (userInput.equals("list")) {
+            if (userInput.equals("list")) {
                 for (int i = 0; i < todoCount; i++) {
                     System.out.println("\t" + (i + 1) + ". " + todoList[i]);
                 }
+            } else if (userInput.equals("bye")) {
+                System.out.println("Bye. Hope to see you again soon!");
+                break;
+            } else {
+                todoList[todoCount++] = userInput;
+                System.out.println("\tadded: " + userInput);
             }
         }
-
-        System.out.println("Bye. Hope to see you again soon!");
     }
 }
