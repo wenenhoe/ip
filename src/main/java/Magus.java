@@ -15,13 +15,29 @@ public class Magus {
                 return;
             default:
                 if (userInput.startsWith("mark ")) {
-                    taskManager.markTaskAsDone(userInput);
+                    String parsedUserInput = parseUserInput(userInput, "mark ");
+                    int taskNum = parseInt(parsedUserInput);
+                    taskManager.markTaskAsDone(taskNum);
                 } else if (userInput.startsWith("unmark ")) {
-                    taskManager.unmarkTaskAsNotDone(userInput);
+                    String parsedUserInput = parseUserInput(userInput, "unmark ");
+                    int taskNum = parseInt(parsedUserInput);
+                    taskManager.unmarkTaskAsNotDone(taskNum);
                 } else {
                     taskManager.addTask(userInput);
                 }
             }
+        }
+    }
+
+    public static String parseUserInput(String userInput, String actionType) {
+        return userInput.replace(actionType, "");
+    }
+
+    public static int parseInt(String candidate) {
+        try {
+            return Integer.parseInt(candidate);
+        } catch (NumberFormatException e) {
+            return 0;
         }
     }
 }

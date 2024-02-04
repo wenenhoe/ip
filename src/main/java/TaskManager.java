@@ -23,14 +23,11 @@ public class TaskManager {
         Console.printResponse("added: " + description);
     }
 
-    public void markTaskAsDone(String userInput) {
-        int taskNum = TaskManager.parseUserInput(userInput, "mark ");
-        if (taskNum <= 0) {
-            return;
-        }
+    public void markTaskAsDone(int taskNum) {
+        taskNum--; // Decrement to utilise as list index
 
         try {
-            Task task = taskList.get(taskNum - 1);
+            Task task = taskList.get(taskNum);
             task.markAsDone();
             Console.printResponse("Nice! I've marked this task as done:");
             Console.printResponse("  " + task.toString());
@@ -39,28 +36,16 @@ public class TaskManager {
         }
     }
 
-    public void unmarkTaskAsNotDone(String userInput) {
-        int taskNum = TaskManager.parseUserInput(userInput, "unmark ");
-        if (taskNum <= 0) {
-            return;
-        }
+    public void unmarkTaskAsNotDone(int taskNum) {
+        taskNum--; // Decrement to utilise as list index
 
         try {
-            Task task = taskList.get(taskNum - 1);
+            Task task = taskList.get(taskNum);
             task.unmarkAsNotDone();
             Console.printResponse("OK, I've marked this task as not done yet:");
             Console.printResponse("  " + task.toString());
         } catch (IndexOutOfBoundsException ignored) {
             // Outside range of task list, unable to modify task status
-        }
-    }
-
-    private static int parseUserInput(String userInput, String actionType) {
-        userInput = userInput.replace(actionType, "");
-        try {
-            return Integer.parseInt(userInput);
-        } catch (NumberFormatException e) {
-            return 0;
         }
     }
 }
