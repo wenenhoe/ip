@@ -7,7 +7,8 @@ public class Task {
         this.isDone = false;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return String.format("[%s] %s", getStatusIcon(), description);
     }
 
