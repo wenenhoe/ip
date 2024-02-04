@@ -28,13 +28,9 @@ public class TaskManager {
     }
 
     public void markTaskAsDone(int taskNum) {
-        Task task;
-        taskNum--; // Decrement to utilise as list index
-
-        try {
-            task = taskList.get(taskNum);
-        } catch (IndexOutOfBoundsException ignored) {
-            return; // Outside range of task list, unable to modify task status
+        Task task = getTask(taskNum);
+        if (task == null) {
+            return;
         }
 
         task.markAsDone();
@@ -43,17 +39,23 @@ public class TaskManager {
     }
 
     public void unmarkTaskAsNotDone(int taskNum) {
-        Task task;
-        taskNum--; // Decrement to utilise as list index
-
-        try {
-            task = taskList.get(taskNum);
-        } catch (IndexOutOfBoundsException ignored) {
-            return; // Outside range of task list, unable to modify task status
+        Task task = getTask(taskNum);
+        if (task == null) {
+            return;
         }
 
         task.unmarkAsNotDone();
         Console.printResponse("OK, I've marked this task as not done yet:");
         Console.printResponse("  " + task.toString());
+    }
+
+    private Task getTask(int taskNum) {
+        taskNum--; // Decrement to utilise as list index
+
+        try {
+            return taskList.get(taskNum);
+        } catch (IndexOutOfBoundsException ok) {
+            return null; // Outside range of task list, unable to modify task status
+        }
     }
 }
