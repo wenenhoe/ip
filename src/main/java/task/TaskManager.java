@@ -22,12 +22,36 @@ public class TaskManager {
     }
 
     public void addTask(String description) {
-        Task task = new Task(description);
+        Task task = Task.parse(description);
         taskList.add(task);
         Console.printResponse("added: " + description);
     }
 
     public void addTask(TaskType taskType, String taskInfo) {
+        Task task = null;
+
+        switch (taskType) {
+        case DEFAULT:
+            addTask(taskInfo);
+            break;
+        case TODO:
+            task = Todo.parse(taskInfo);
+            break;
+        case DEADLINE:
+            task = Deadline.parse(taskInfo);
+            break;
+        case EVENT:
+            task = Event.parse(taskInfo);
+            break;
+        }
+
+        if (task == null) {
+            return;
+        }
+        taskList.add(task);
+        Console.printResponse("Got it. I've added this task:");
+        Console.printResponse(task.toString(), 2);
+        Console.printResponse("Now you have " + taskList.size() + " tasks in the list.");
     }
 
     public void markTaskAsDone(int taskNum) {

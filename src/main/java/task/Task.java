@@ -9,6 +9,10 @@ public class Task {
         this.isDone = false;
     }
 
+    public static Task parse(String taskInfo) {
+        return new Task(taskInfo);
+    }
+
     @Override
     public String toString() {
         return String.format("[%s] %s", getStatusIcon(), description);
