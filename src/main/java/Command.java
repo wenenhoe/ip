@@ -3,7 +3,10 @@ public enum Command {
     LIST,
     BYE,
     MARK,
-    UNMARK;
+    UNMARK,
+    TODO,
+    DEADLINE,
+    EVENT;
 
     @Override
     public String toString() {

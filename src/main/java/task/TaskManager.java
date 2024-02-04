@@ -27,6 +27,9 @@ public class TaskManager {
         Console.printResponse("added: " + description);
     }
 
+    public void addTask(TaskType taskType, String taskInfo) {
+    }
+
     public void markTaskAsDone(int taskNum) {
         Task task = getTask(taskNum);
         if (task == null) {

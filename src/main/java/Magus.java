@@ -1,5 +1,6 @@
 import console.Console;
 import task.TaskManager;
+import task.TaskType;
 
 public class Magus {
     public static void main(String[] args) {
@@ -48,6 +49,15 @@ public class Magus {
             case UNMARK:
                 taskNum = parseInt(restOfInput);
                 taskManager.unmarkTaskAsNotDone(taskNum);
+                break;
+            case TODO:
+                taskManager.addTask(TaskType.TODO, restOfInput);
+                break;
+            case DEADLINE:
+                taskManager.addTask(TaskType.DEADLINE, restOfInput);
+                break;
+            case EVENT:
+                taskManager.addTask(TaskType.EVENT, restOfInput);
                 break;
             }
         }
