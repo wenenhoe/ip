@@ -1,3 +1,6 @@
+import console.Console;
+import task.TaskManager;
+
 public class Magus {
     public static void main(String[] args) {
         TaskManager taskManager = new TaskManager();
@@ -6,31 +9,48 @@ public class Magus {
         while (true) {
             String userInput = Console.getUserInput();
 
-            switch (userInput) {
-            case "list":
-                taskManager.printTaskList();
+            int taskNum;
+            String firstWord, restOfInput;
+            boolean isSingleWord = false;
+            int firstSpaceIndex = userInput.indexOf(" ");
+            if (firstSpaceIndex == -1) {
+                firstWord = userInput;
+                restOfInput = "";
+                isSingleWord = true;
+            } else {
+                firstWord = userInput.substring(0, firstSpaceIndex);
+                restOfInput = userInput.substring(firstSpaceIndex + 1);
+            }
+            Command command = Command.getEnum(firstWord);
+
+            switch (command) {
+            case DEFAULT:
+                taskManager.addTask(userInput);
                 break;
-            case "bye":
-                Console.printResponse("Bye. Hope to see you again soon!");
-                return;
-            default:
-                if (userInput.startsWith("mark ")) {
-                    String parsedUserInput = parseUserInput(userInput, "mark ");
-                    int taskNum = parseInt(parsedUserInput);
-                    taskManager.markTaskAsDone(taskNum);
-                } else if (userInput.startsWith("unmark ")) {
-                    String parsedUserInput = parseUserInput(userInput, "unmark ");
-                    int taskNum = parseInt(parsedUserInput);
-                    taskManager.unmarkTaskAsNotDone(taskNum);
+            case LIST:
+                if (isSingleWord) {
+                    taskManager.printTaskList();
                 } else {
                     taskManager.addTask(userInput);
                 }
+                break;
+            case BYE:
+                if (isSingleWord) {
+                    Console.printResponse("Bye. Hope to see you again soon!");
+                    return;
+                }
+                taskManager.addTask(userInput);
+                break;
+            case MARK:
+                taskNum = parseInt(restOfInput);
+                taskManager.markTaskAsDone(taskNum);
+                break;
+            case UNMARK:
+                taskNum = parseInt(restOfInput);
+                taskManager.unmarkTaskAsNotDone(taskNum);
+                break;
             }
         }
-    }
-
-    public static String parseUserInput(String userInput, String actionType) {
-        return userInput.replace(actionType, "");
     }
 
     public static int parseInt(String candidate) {
