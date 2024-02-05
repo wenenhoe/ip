@@ -1,0 +1,14 @@
+hello world
+goodbye world
+todo read book
+deadline submit quiz
+list
+deadline submit quiz /by this Sunday
+event attend workshop /to Friday
+list
+event attend workshop /from Monday /to Friday
+list
+mark 3
+unmark 2
+list
+bye
