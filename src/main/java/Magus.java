@@ -8,59 +8,83 @@ public class Magus {
         Console.printWelcomeMessage();
 
         while (true) {
-            String userInput = Console.getUserInput();
+            String input = Console.getUserInput();
+            boolean isContinue = Magus.processInput(input, taskManager);
 
-            int taskNum;
-            String firstWord, restOfInput;
-            boolean isSingleWord = false;
-            int firstSpaceIndex = userInput.indexOf(" ");
-            if (firstSpaceIndex == -1) {
-                firstWord = userInput;
-                restOfInput = "";
-                isSingleWord = true;
-            } else {
-                firstWord = userInput.substring(0, firstSpaceIndex);
-                restOfInput = userInput.substring(firstSpaceIndex + 1);
-            }
-            Command command = Command.getEnum(firstWord);
-
-            switch (command) {
-            case DEFAULT:
-                taskManager.addTask(userInput);
-                break;
-            case LIST:
-                if (isSingleWord) {
-                    taskManager.printTaskList();
-                } else {
-                    taskManager.addTask(userInput);
-                }
-                break;
-            case BYE:
-                if (isSingleWord) {
-                    Console.printResponse("Bye. Hope to see you again soon!");
-                    return;
-                }
-                taskManager.addTask(userInput);
-                break;
-            case MARK:
-                taskNum = parseInt(restOfInput);
-                taskManager.markTaskAsDone(taskNum);
-                break;
-            case UNMARK:
-                taskNum = parseInt(restOfInput);
-                taskManager.unmarkTaskAsNotDone(taskNum);
-                break;
-            case TODO:
-                taskManager.addTask(TaskType.TODO, restOfInput);
-                break;
-            case DEADLINE:
-                taskManager.addTask(TaskType.DEADLINE, restOfInput);
-                break;
-            case EVENT:
-                taskManager.addTask(TaskType.EVENT, restOfInput);
+            if (!isContinue) {
                 break;
             }
         }
+    }
+
+    public static boolean processInput(String input, TaskManager taskManager) {
+        int taskNum;
+        Command command = getCommand(input);
+        String additionalInput = getAdditionalInput(input, command);
+        boolean isSingleWord = additionalInput.isEmpty();
+
+        switch (command) {
+        case DEFAULT:
+            taskManager.addTask(input);
+            break;
+        case LIST:
+            if (isSingleWord) {
+                taskManager.printTaskList();
+            } else {
+                taskManager.addTask(input);
+            }
+            break;
+        case BYE:
+            if (isSingleWord) {
+                Console.printResponse("Bye. Hope to see you again soon!");
+                return false;
+            }
+            taskManager.addTask(input);
+            break;
+        case MARK:
+            taskNum = parseInt(additionalInput);
+            taskManager.markTaskAsDone(taskNum);
+            break;
+        case UNMARK:
+            taskNum = parseInt(additionalInput);
+            taskManager.unmarkTaskAsNotDone(taskNum);
+            break;
+        case TODO:
+            taskManager.addTask(TaskType.TODO, additionalInput);
+            break;
+        case DEADLINE:
+            taskManager.addTask(TaskType.DEADLINE, additionalInput);
+            break;
+        case EVENT:
+            taskManager.addTask(TaskType.EVENT, additionalInput);
+            break;
+        }
+        return true;
+    }
+
+    public static Command getCommand(String input) {
+        String firstWord = input;
+
+        int firstSpaceIndex = input.indexOf(" ");
+        if (firstSpaceIndex != -1) {
+            firstWord = input.substring(0, firstSpaceIndex);
+        }
+        return Command.getEnum(firstWord);
+    }
+
+    public static String getAdditionalInput(String input, Command command) {
+        String additionalInput = "";
+        int additionalInputIndex = command.toString().length() + 1;
+
+        boolean isNotDefaultCommand = command != Command.DEFAULT;
+        boolean isAdditionalInputExists = additionalInputIndex < input.length();
+
+        if (isNotDefaultCommand && isAdditionalInputExists) {
+            // if it is non-DEFAULT commands and there is additional input
+            additionalInput = input.substring(additionalInputIndex);
+        }
+
+        return additionalInput;
     }
 
     public static int parseInt(String candidate) {
