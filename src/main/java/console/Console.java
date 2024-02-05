@@ -3,8 +3,9 @@ package console;
 import java.util.Scanner;
 
 public class Console {
+    private static final Scanner scanner = new Scanner(System.in);
+
     public static String getUserInput() {
-        Scanner scanner = new Scanner(System.in);
         String separator = "-----------------------------------------------";
         System.out.println(separator);
         System.out.print("> ");
