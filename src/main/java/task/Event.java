@@ -20,6 +20,7 @@ public class Event extends Task {
         int commandFromIndex = infoList.indexOf(commandFromArg);
         int commandToIndex = infoList.indexOf(commandToArg);
         if (commandFromIndex == -1 || commandToIndex == -1) {
+            // Unable to find either of the 2 args /from and /to
             return null;
         }
 

@@ -82,7 +82,7 @@ public class TaskManager {
         try {
             return taskList.get(taskNum);
         } catch (IndexOutOfBoundsException ok) {
-            return null; // Outside range of task list, unable to modify task status
+            return null; // Outside range of task list
         }
     }
 }
