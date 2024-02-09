@@ -8,19 +8,17 @@ public class Magus {
     public static void main(String[] args) {
         TaskManager taskManager = new TaskManager();
         Console.printWelcomeMessage();
+        boolean isExitProgram = false;
 
-        while (true) {
+        while (!isExitProgram) {
             String input = Console.getUserInput();
             Parser parser = new Parser(input);
-            boolean isContinue = Magus.processInput(parser, taskManager);
-
-            if (!isContinue) {
-                break;
-            }
+            Magus.processInput(parser, taskManager);
+            isExitProgram = parser.getCommand() == Command.BYE;
         }
     }
 
-    public static boolean processInput(Parser parser, TaskManager taskManager) {
+    public static void processInput(Parser parser, TaskManager taskManager) {
         int taskNum;
         String input = parser.getInput();
         Command command = parser.getCommand();
@@ -41,9 +39,9 @@ public class Magus {
         case BYE:
             if (isSingleWord) {
                 Console.printResponse("Bye. Hope to see you again soon!");
-                return false;
+            } else {
+                taskManager.addTask(input);
             }
-            taskManager.addTask(input);
             break;
         case MARK:
             taskNum = Parser.parseInt(additionalInput);
@@ -51,7 +49,7 @@ public class Magus {
             break;
         case UNMARK:
             taskNum = Parser.parseInt(additionalInput);
-            taskManager.unmarkTaskAsNotDone(taskNum);
+            taskManager.unmarkTaskAsDone(taskNum);
             break;
         case TODO:
             taskManager.addTask(TaskType.TODO, additionalInput);
@@ -63,6 +61,5 @@ public class Magus {
             taskManager.addTask(TaskType.EVENT, additionalInput);
             break;
         }
-        return true;
     }
 }
