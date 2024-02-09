@@ -32,10 +32,6 @@ public class TaskManager {
         Task task = null;
 
         switch (taskType) {
-        case DEFAULT:
-            int tabCount = 1;
-            Console.printWarning("This task type has been deprecated", tabCount);
-            break;
         case TODO:
             task = Todo.parse(taskInfo);
             break;
