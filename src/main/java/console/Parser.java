@@ -1,15 +1,11 @@
 package console;
 
 public class Parser {
-    @Deprecated
-    private final String input;
     private final Command command;
     private final String additionalInput;
     private final boolean isSingleWord;
 
     public Parser(String input) {
-        this.input = input;
-
         // Parse first word to get command
 
         String firstWord = input;
@@ -31,12 +27,9 @@ public class Parser {
             this.additionalInput = "";
         }
 
-        this.isSingleWord = additionalInput.isEmpty();
-    }
+        // No additional input would be a single word command
 
-    @Deprecated
-    public String getInput() {
-        return input;
+        this.isSingleWord = additionalInput.isEmpty();
     }
 
     public Command getCommand() {
