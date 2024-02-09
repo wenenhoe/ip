@@ -25,27 +25,21 @@ public class Magus {
 
     public static void processInput(Parser parser, TaskManager taskManager) {
         int taskNum;
-        String input = parser.getInput();
         Command command = parser.getCommand();
         String additionalInput = parser.getAdditionalInput();
         boolean isSingleWord = parser.isSingleWord();
 
         switch (command) {
         case DEFAULT:
-            taskManager.addTask(TaskType.DEFAULT, input);
             break;
         case LIST:
             if (isSingleWord) {
                 taskManager.printTaskList();
-            } else {
-                taskManager.addTask(TaskType.DEFAULT, input);
             }
             break;
         case BYE:
             if (isSingleWord) {
                 Console.printResponse("Bye. Hope to see you again soon!");
-            } else {
-                taskManager.addTask(TaskType.DEFAULT, input);
             }
             break;
         case MARK:

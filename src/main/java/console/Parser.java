@@ -1,6 +1,7 @@
 package console;
 
 public class Parser {
+    @Deprecated
     private final String input;
     private final Command command;
     private final String additionalInput;
@@ -33,6 +34,7 @@ public class Parser {
         this.isSingleWord = additionalInput.isEmpty();
     }
 
+    @Deprecated
     public String getInput() {
         return input;
     }
