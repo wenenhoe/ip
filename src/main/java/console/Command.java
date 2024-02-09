@@ -1,7 +1,7 @@
 package console;
 
 public enum Command {
-    DEFAULT,
+    UNKNOWN,
     LIST,
     BYE,
     MARK,
@@ -19,7 +19,7 @@ public enum Command {
         try {
             return Command.valueOf(name.toUpperCase());
         } catch (IllegalArgumentException ok) {
-            return Command.DEFAULT;
+            return Command.UNKNOWN;
         }
     }
 }

@@ -22,10 +22,10 @@ public class Parser {
         // Parse additional input
 
         int additionalInputIndex = command.toString().length() + 1;
-        boolean isNotDefaultCommand = command != Command.DEFAULT;
+        boolean isNotUnknownCommand = command != Command.UNKNOWN;
         boolean isAdditionalInputExists = additionalInputIndex < input.length();
-        if (isNotDefaultCommand && isAdditionalInputExists) {
-            // if it is non-DEFAULT commands and there is additional input
+        if (isNotUnknownCommand && isAdditionalInputExists) {
+            // if it is not UNKNOWN commands and there is additional input
             this.additionalInput = input.substring(additionalInputIndex);
         } else {
             this.additionalInput = "";

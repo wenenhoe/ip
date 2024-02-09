@@ -30,7 +30,7 @@ public class Magus {
         boolean isSingleWord = parser.isSingleWord();
 
         switch (command) {
-        case DEFAULT:
+        case UNKNOWN:
             // TODO: Error, no such command
             break;
         case LIST:
