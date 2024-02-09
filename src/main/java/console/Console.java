@@ -33,4 +33,9 @@ public class Console {
     public static void printResponse(String response, int tabCount) {
         System.out.println("\t".repeat(tabCount) + response);
     }
+
+    public static void printWarning(String message, int tabCount) {
+        String formattedString = String.format("**** %s ****", message);
+        System.out.println("\t".repeat(tabCount) + formattedString);
+    }
 }

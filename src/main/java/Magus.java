@@ -27,20 +27,20 @@ public class Magus {
 
         switch (command) {
         case DEFAULT:
-            taskManager.addTask(input);
+            taskManager.addTask(TaskType.DEFAULT, input);
             break;
         case LIST:
             if (isSingleWord) {
                 taskManager.printTaskList();
             } else {
-                taskManager.addTask(input);
+                taskManager.addTask(TaskType.DEFAULT, input);
             }
             break;
         case BYE:
             if (isSingleWord) {
                 Console.printResponse("Bye. Hope to see you again soon!");
             } else {
-                taskManager.addTask(input);
+                taskManager.addTask(TaskType.DEFAULT, input);
             }
             break;
         case MARK:

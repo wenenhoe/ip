@@ -21,6 +21,7 @@ public class TaskManager {
         }
     }
 
+    @Deprecated
     public void addTask(String description) {
         Task task = Task.parse(description);
         taskList.add(task);
@@ -32,7 +33,8 @@ public class TaskManager {
 
         switch (taskType) {
         case DEFAULT:
-            addTask(taskInfo);
+            int tabCount = 1;
+            Console.printWarning("This task type has been deprecated", tabCount);
             break;
         case TODO:
             task = Todo.parse(taskInfo);

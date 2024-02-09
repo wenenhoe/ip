@@ -9,6 +9,7 @@ public class Task {
         this.isDone = false;
     }
 
+    @Deprecated
     public static Task parse(String taskInfo) {
         return new Task(taskInfo);
     }
