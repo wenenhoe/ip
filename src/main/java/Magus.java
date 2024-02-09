@@ -15,11 +15,8 @@ public class Magus {
             Parser parser = new Parser(input);
             Magus.processInput(parser, taskManager);
 
-            boolean isCommandBye = parser.getCommand() == Command.BYE;
-            boolean isSingleWord = parser.isSingleWord();
-
-            // Is bye command and no additional inputs
-            isExitProgram = isCommandBye && isSingleWord;
+            // Exit when bye command issued
+            isExitProgram = parser.getCommand() == Command.BYE;
         }
     }
 
@@ -27,21 +24,16 @@ public class Magus {
         int taskNum;
         Command command = parser.getCommand();
         String additionalInput = parser.getAdditionalInput();
-        boolean isSingleWord = parser.isSingleWord();
 
         switch (command) {
         case UNKNOWN:
             // TODO: Error, no such command
             break;
         case LIST:
-            if (isSingleWord) {
-                taskManager.printTaskList();
-            } // TODO: Else error, no such command
+            taskManager.printTaskList();
             break;
         case BYE:
-            if (isSingleWord) {
-                Console.printResponse("Bye. Hope to see you again soon!");
-            } // TODO: Else error, no such command
+            Console.printResponse("Bye. Hope to see you again soon!");
             break;
         case MARK:
             taskNum = Parser.parseInt(additionalInput);
