@@ -31,16 +31,17 @@ public class Magus {
 
         switch (command) {
         case DEFAULT:
+            // TODO: Error, no such command
             break;
         case LIST:
             if (isSingleWord) {
                 taskManager.printTaskList();
-            }
+            } // TODO: Else error, no such command
             break;
         case BYE:
             if (isSingleWord) {
                 Console.printResponse("Bye. Hope to see you again soon!");
-            }
+            } // TODO: Else error, no such command
             break;
         case MARK:
             taskNum = Parser.parseInt(additionalInput);
