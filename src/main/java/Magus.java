@@ -14,7 +14,12 @@ public class Magus {
             String input = Console.getUserInput();
             Parser parser = new Parser(input);
             Magus.processInput(parser, taskManager);
-            isExitProgram = parser.getCommand() == Command.BYE;
+
+            boolean isCommandBye = parser.getCommand() == Command.BYE;
+            boolean isSingleWord = parser.isSingleWord();
+
+            // Is bye command and no additional inputs
+            isExitProgram = isCommandBye && isSingleWord;
         }
     }
 
