@@ -16,7 +16,7 @@ public class Deadline extends Task {
         List<String> infoList = List.of(taskInfo.split(" "));
         int commandIndex = infoList.indexOf(commandArg);
         if (commandIndex == -1) {
-            // Unable to find either of the arg /by
+            // Unable to find the arg /by
             return null;
         }
 
