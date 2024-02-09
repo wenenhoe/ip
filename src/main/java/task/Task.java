@@ -22,7 +22,7 @@ public class Task {
         isDone = true;
     }
 
-    public void unmarkAsNotDone() {
+    public void unmarkAsDone() {
         isDone = false;
     }
 

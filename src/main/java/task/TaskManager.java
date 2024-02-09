@@ -65,13 +65,13 @@ public class TaskManager {
         Console.printResponse("  " + task);
     }
 
-    public void unmarkTaskAsNotDone(int taskNum) {
+    public void unmarkTaskAsDone(int taskNum) {
         Task task = getTask(taskNum);
         if (task == null) {
             return;
         }
 
-        task.unmarkAsNotDone();
+        task.unmarkAsDone();
         Console.printResponse("OK, I've marked this task as not done yet:");
         Console.printResponse("  " + task);
     }

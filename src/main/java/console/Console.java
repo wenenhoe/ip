@@ -3,13 +3,13 @@ package console;
 import java.util.Scanner;
 
 public class Console {
-    private static final Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     public static String getUserInput() {
         String separator = "-----------------------------------------------";
         System.out.println(separator);
         System.out.print("> ");
-        return scanner.nextLine().strip();
+        return SCANNER.nextLine().strip();
     }
 
     public static void printWelcomeMessage() {
@@ -26,7 +26,8 @@ public class Console {
     }
 
     public static void printResponse(String response) {
-        printResponse(response, 1);
+        int tabCount = 1;
+        printResponse(response, tabCount);
     }
 
     public static void printResponse(String response, int tabCount) {
