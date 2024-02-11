@@ -10,7 +10,7 @@ public class Deadline extends Task {
         this.end = end;
     }
 
-    public static Task parse(String taskInfo) {
+    public static Deadline parse(String taskInfo) {
         String commandArg = "/by";
 
         List<String> infoList = List.of(taskInfo.split(" "));

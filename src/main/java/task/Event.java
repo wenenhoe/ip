@@ -12,7 +12,7 @@ public class Event extends Task {
         this.end = end;
     }
 
-    public static Task parse(String taskInfo) {
+    public static Event parse(String taskInfo) {
         String commandFromArg = "/from";
         String commandToArg = "/to";
 

@@ -5,7 +5,7 @@ public class Todo extends Task {
         super(description);
     }
 
-    public static Task parse(String taskInfo) {
+    public static Todo parse(String taskInfo) {
         return new Todo(taskInfo);
     }
 
