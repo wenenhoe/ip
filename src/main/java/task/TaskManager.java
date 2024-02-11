@@ -21,13 +21,6 @@ public class TaskManager {
         }
     }
 
-    @Deprecated
-    public void addTask(String description) {
-        Task task = Task.parse(description);
-        taskList.add(task);
-        Console.printResponse("added: " + description);
-    }
-
     public void addTask(TaskType taskType, String taskInfo) {
         Task task = null;
 
