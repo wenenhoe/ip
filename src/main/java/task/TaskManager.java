@@ -16,7 +16,7 @@ public class TaskManager {
     public void printTaskList() {
         int taskNum = 1;
         Console.printResponse("Here are the tasks in your list:");
-        for (Task task : taskList) {
+        for (Task task: taskList) {
             Console.printResponse(taskNum + "." + task.toString());
             taskNum++;
         }
