@@ -1,4 +1,4 @@
-package task;
+package Magus.task;
 
 public class Task {
     private final String description;

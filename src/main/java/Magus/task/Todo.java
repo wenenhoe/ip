@@ -1,6 +1,6 @@
-package task;
+package Magus.task;
 
-import exception.ArgumentNotFoundException;
+import Magus.exception.ArgumentNotFoundException;
 
 public class Todo extends Task {
     public Todo(String description) {

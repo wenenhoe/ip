@@ -1,4 +1,4 @@
-package task;
+package Magus.task;
 
 public enum TaskType {
     TODO,
