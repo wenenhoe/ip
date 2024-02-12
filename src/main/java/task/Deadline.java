@@ -1,5 +1,7 @@
 package task;
 
+import exception.ArgumentNotFoundException;
+
 import java.util.List;
 
 public class Deadline extends Task {
@@ -10,14 +12,14 @@ public class Deadline extends Task {
         this.end = end;
     }
 
-    public static Deadline parse(String taskInfo) {
+    public static Deadline parse(String taskInfo) throws ArgumentNotFoundException {
         String commandArg = "/by";
 
         List<String> infoList = List.of(taskInfo.split(" "));
         int commandIndex = infoList.indexOf(commandArg);
         if (commandIndex == -1) {
             // Unable to find the arg /by
-            return null;
+            throw new ArgumentNotFoundException(taskInfo);
         }
 
         List<String> descriptionList = infoList.subList(0, commandIndex);

@@ -38,4 +38,18 @@ public class Console {
         String formattedString = String.format("**** %s ****", message);
         System.out.println("\t".repeat(tabCount) + formattedString);
     }
+
+    public static void printError(Throwable cause) {
+        System.out.println(cause.toString());
+    }
+
+    public static void printError(String message, Throwable cause) {
+        String exceptionName = cause.getClass().getName();
+        String exceptionDetails = cause.getMessage();
+        String errorMsg = String.format("%s %s: %s",
+                message,
+                exceptionName,
+                exceptionDetails);
+        System.out.println(errorMsg);
+    }
 }

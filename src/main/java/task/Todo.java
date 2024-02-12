@@ -1,11 +1,17 @@
 package task;
 
+import exception.ArgumentNotFoundException;
+
 public class Todo extends Task {
     public Todo(String description) {
         super(description);
     }
 
-    public static Todo parse(String taskInfo) {
+    public static Todo parse(String taskInfo) throws ArgumentNotFoundException {
+        boolean hasNoDescription = taskInfo.isEmpty();
+        if (hasNoDescription) {
+            throw new ArgumentNotFoundException(taskInfo);
+        }
         return new Todo(taskInfo);
     }
 

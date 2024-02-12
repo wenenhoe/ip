@@ -1,6 +1,7 @@
 package task;
 
 import console.Console;
+import exception.ArgumentNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +27,25 @@ public class TaskManager {
 
         switch (taskType) {
         case TODO:
-            task = Todo.parse(taskInfo);
+            try {
+                task = Todo.parse(taskInfo);
+            } catch (ArgumentNotFoundException e) {
+                Console.printError(taskType.toString(), e);
+            }
             break;
         case DEADLINE:
-            task = Deadline.parse(taskInfo);
+            try {
+                task = Deadline.parse(taskInfo);
+            } catch (ArgumentNotFoundException e) {
+                Console.printError(taskType.toString(), e);
+            }
             break;
         case EVENT:
-            task = Event.parse(taskInfo);
+            try {
+                task = Event.parse(taskInfo);
+            } catch (ArgumentNotFoundException e) {
+                Console.printError(taskType.toString(), e);
+            }
             break;
         }
 
