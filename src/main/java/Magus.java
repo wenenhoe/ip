@@ -1,6 +1,7 @@
-import console.Console;
 import console.Command;
+import console.Console;
 import console.Parser;
+import exception.CommandNotFoundException;
 import task.TaskManager;
 import task.TaskType;
 
@@ -13,22 +14,26 @@ public class Magus {
         while (!isExitProgram) {
             String input = Console.getUserInput();
             Parser parser = new Parser(input);
-            Magus.processInput(parser, taskManager);
+            try {
+                Magus.processInput(parser, taskManager);
+            } catch (CommandNotFoundException e) {
+                Console.printError(e);
+            }
 
             // Exit when bye command issued
             isExitProgram = parser.getCommand() == Command.BYE;
         }
     }
 
-    public static void processInput(Parser parser, TaskManager taskManager) {
+    public static void processInput(Parser parser, TaskManager taskManager)
+            throws CommandNotFoundException {
         int taskNum;
         Command command = parser.getCommand();
         String additionalInput = parser.getAdditionalInput();
 
         switch (command) {
         case UNKNOWN:
-            // TODO: Error, no such command
-            break;
+            throw new CommandNotFoundException();
         case LIST:
             taskManager.printTaskList();
             break;
