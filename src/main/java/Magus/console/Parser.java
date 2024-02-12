@@ -1,4 +1,4 @@
-package console;
+package Magus.console;
 
 public class Parser {
     private final Command command;

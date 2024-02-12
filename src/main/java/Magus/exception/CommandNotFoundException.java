@@ -1,4 +1,4 @@
-package exception;
+package Magus.exception;
 
 public class CommandNotFoundException extends IllegalArgumentException {
     public CommandNotFoundException() {}

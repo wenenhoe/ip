@@ -1,4 +1,4 @@
-package console;
+package Magus.console;
 
 import java.util.Scanner;
 

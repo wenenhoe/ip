@@ -1,7 +1,7 @@
-package task;
+package Magus.task;
 
-import console.Console;
-import exception.ArgumentNotFoundException;
+import Magus.console.Console;
+import Magus.exception.ArgumentNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
