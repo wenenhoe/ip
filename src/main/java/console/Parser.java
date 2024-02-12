@@ -1,40 +1,37 @@
 package console;
 
 public class Parser {
-    private final String input;
     private final Command command;
     private final String additionalInput;
-    private final boolean isSingleWord;
 
     public Parser(String input) {
-        this.input = input;
-
         // Parse first word to get command
-
         String firstWord = input;
         int firstSpaceIndex = input.indexOf(" ");
         if (firstSpaceIndex != -1) {
             firstWord = input.substring(0, firstSpaceIndex);
         }
-        this.command = Command.getEnum(firstWord);
+        Command command = Command.getEnum(firstWord);
 
         // Parse additional input
-
+        String additionalInput = "";
         int additionalInputIndex = command.toString().length() + 1;
-        boolean isNotDefaultCommand = command != Command.DEFAULT;
-        boolean isAdditionalInputExists = additionalInputIndex < input.length();
-        if (isNotDefaultCommand && isAdditionalInputExists) {
-            // if it is non-DEFAULT commands and there is additional input
-            this.additionalInput = input.substring(additionalInputIndex);
-        } else {
-            this.additionalInput = "";
+        boolean isUnknownCommand = command == Command.UNKNOWN;
+        boolean hasAdditionalInput = additionalInputIndex < input.length();
+        if (!isUnknownCommand && hasAdditionalInput) {
+            additionalInput = input.substring(additionalInputIndex);
         }
+        this.additionalInput = additionalInput;
 
-        this.isSingleWord = additionalInput.isEmpty();
-    }
-
-    public String getInput() {
-        return input;
+        // Verify Command.LIST and Command.BYE have no additionalInput
+        boolean isListCommand = command == Command.LIST;
+        boolean isByeCommand = command == Command.BYE;
+        boolean isListOrByeCommand = isListCommand || isByeCommand;
+        boolean isSingleWord = additionalInput.isEmpty(); // No additional input
+        if (isListOrByeCommand && !isSingleWord) {
+            command = Command.UNKNOWN;
+        }
+        this.command = command;
     }
 
     public Command getCommand() {
@@ -43,10 +40,6 @@ public class Parser {
 
     public String getAdditionalInput() {
         return additionalInput;
-    }
-
-    public boolean isSingleWord() {
-        return isSingleWord;
     }
 
     public static int parseInt(String candidate) {

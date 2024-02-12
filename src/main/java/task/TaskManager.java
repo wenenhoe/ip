@@ -1,6 +1,7 @@
 package task;
 
 import console.Console;
+import exception.ArgumentNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,33 +16,36 @@ public class TaskManager {
     public void printTaskList() {
         int taskNum = 1;
         Console.printResponse("Here are the tasks in your list:");
-        for (Task task : taskList) {
+        for (Task task: taskList) {
             Console.printResponse(taskNum + "." + task.toString());
             taskNum++;
         }
-    }
-
-    public void addTask(String description) {
-        Task task = Task.parse(description);
-        taskList.add(task);
-        Console.printResponse("added: " + description);
     }
 
     public void addTask(TaskType taskType, String taskInfo) {
         Task task = null;
 
         switch (taskType) {
-        case DEFAULT:
-            addTask(taskInfo);
-            break;
         case TODO:
-            task = Todo.parse(taskInfo);
+            try {
+                task = Todo.parse(taskInfo);
+            } catch (ArgumentNotFoundException e) {
+                Console.printError(taskType.toString(), e);
+            }
             break;
         case DEADLINE:
-            task = Deadline.parse(taskInfo);
+            try {
+                task = Deadline.parse(taskInfo);
+            } catch (ArgumentNotFoundException e) {
+                Console.printError(taskType.toString(), e);
+            }
             break;
         case EVENT:
-            task = Event.parse(taskInfo);
+            try {
+                task = Event.parse(taskInfo);
+            } catch (ArgumentNotFoundException e) {
+                Console.printError(taskType.toString(), e);
+            }
             break;
         }
 

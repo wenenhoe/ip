@@ -1,5 +1,7 @@
 package task;
 
+import exception.ArgumentNotFoundException;
+
 import java.util.List;
 
 public class Event extends Task {
@@ -12,7 +14,7 @@ public class Event extends Task {
         this.end = end;
     }
 
-    public static Task parse(String taskInfo) {
+    public static Event parse(String taskInfo) throws ArgumentNotFoundException {
         String commandFromArg = "/from";
         String commandToArg = "/to";
 
@@ -21,7 +23,7 @@ public class Event extends Task {
         int commandToIndex = infoList.indexOf(commandToArg);
         if (commandFromIndex == -1 || commandToIndex == -1) {
             // Unable to find either of the 2 args /from and /to
-            return null;
+            throw new ArgumentNotFoundException(taskInfo);
         }
 
         List<String> descriptionList = infoList.subList(0, commandFromIndex);

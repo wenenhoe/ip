@@ -4,13 +4,9 @@ public class Task {
     private final String description;
     private boolean isDone;
 
-    public Task(String description) {
+    protected Task(String description) {
         this.description = description;
         this.isDone = false;
-    }
-
-    public static Task parse(String taskInfo) {
-        return new Task(taskInfo);
     }
 
     @Override

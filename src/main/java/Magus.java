@@ -1,6 +1,7 @@
-import console.Console;
 import console.Command;
+import console.Console;
 import console.Parser;
+import exception.CommandNotFoundException;
 import task.TaskManager;
 import task.TaskType;
 
@@ -13,35 +14,31 @@ public class Magus {
         while (!isExitProgram) {
             String input = Console.getUserInput();
             Parser parser = new Parser(input);
-            Magus.processInput(parser, taskManager);
+            try {
+                Magus.processInput(parser, taskManager);
+            } catch (CommandNotFoundException e) {
+                Console.printError(e);
+            }
+
+            // Exit when bye command issued
             isExitProgram = parser.getCommand() == Command.BYE;
         }
     }
 
-    public static void processInput(Parser parser, TaskManager taskManager) {
+    public static void processInput(Parser parser, TaskManager taskManager)
+            throws CommandNotFoundException {
         int taskNum;
-        String input = parser.getInput();
         Command command = parser.getCommand();
         String additionalInput = parser.getAdditionalInput();
-        boolean isSingleWord = parser.isSingleWord();
 
         switch (command) {
-        case DEFAULT:
-            taskManager.addTask(input);
-            break;
+        case UNKNOWN:
+            throw new CommandNotFoundException();
         case LIST:
-            if (isSingleWord) {
-                taskManager.printTaskList();
-            } else {
-                taskManager.addTask(input);
-            }
+            taskManager.printTaskList();
             break;
         case BYE:
-            if (isSingleWord) {
-                Console.printResponse("Bye. Hope to see you again soon!");
-            } else {
-                taskManager.addTask(input);
-            }
+            Console.printResponse("Bye. Hope to see you again soon!");
             break;
         case MARK:
             taskNum = Parser.parseInt(additionalInput);
