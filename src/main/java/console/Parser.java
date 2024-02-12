@@ -14,14 +14,14 @@ public class Parser {
         Command command = Command.getEnum(firstWord);
 
         // Parse additional input
+        String additionalInput = "";
         int additionalInputIndex = command.toString().length() + 1;
         boolean isUnknownCommand = command == Command.UNKNOWN;
         boolean hasAdditionalInput = additionalInputIndex < input.length();
         if (!isUnknownCommand && hasAdditionalInput) {
-            this.additionalInput = input.substring(additionalInputIndex);
-        } else {
-            this.additionalInput = "";
+            additionalInput = input.substring(additionalInputIndex);
         }
+        this.additionalInput = additionalInput;
 
         // Verify Command.LIST and Command.BYE have no additionalInput
         boolean isListCommand = command == Command.LIST;
