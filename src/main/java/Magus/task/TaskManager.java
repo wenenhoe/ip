@@ -58,6 +58,18 @@ public class TaskManager {
         Console.printResponse("Now you have " + taskList.size() + " tasks in the list.");
     }
 
+    public void deleteTask(int taskNum) {
+        Task task = getTask(taskNum);
+        if (task == null) {
+            return;
+        }
+
+        taskList.remove(task);
+        Console.printResponse("Noted. I've removed this task:");
+        Console.printResponse(task.toString(), 2);
+        Console.printResponse("Now you have " + taskList.size() + " tasks in the list.");
+    }
+
     public void markTaskAsDone(int taskNum) {
         Task task = getTask(taskNum);
         if (task == null) {

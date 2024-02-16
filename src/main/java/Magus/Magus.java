@@ -50,6 +50,10 @@ public class Magus {
             taskNum = Parser.parseInt(additionalInput);
             taskManager.unmarkTaskAsDone(taskNum);
             break;
+        case DELETE:
+            taskNum = Parser.parseInt(additionalInput);
+            taskManager.deleteTask(taskNum);
+            break;
         case TODO:
             taskManager.addTask(TaskType.TODO, additionalInput);
             break;
