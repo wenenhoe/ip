@@ -1,13 +1,15 @@
 package Magus.task;
 
-public class Task {
-    private final String description;
+public abstract class Task {
+    protected final String description;
     private boolean isDone;
 
     protected Task(String description) {
         this.description = description;
         this.isDone = false;
     }
+
+    public abstract char getBadge();
 
     @Override
     public String toString() {
