@@ -1,4 +1,4 @@
-package Magus.fileio;
+package Magus.task.fileio;
 
 import java.io.BufferedWriter;
 import java.io.File;

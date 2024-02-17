@@ -6,7 +6,7 @@ import Magus.exception.ArgumentNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Magus.fileio.FileIo.writeTaskListFile;
+import static Magus.task.fileio.FileIo.writeTaskListFile;
 
 public class TaskManager {
     private final List<Task> taskList;
