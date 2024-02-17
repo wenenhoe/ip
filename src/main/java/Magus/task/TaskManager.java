@@ -52,7 +52,7 @@ public class TaskManager {
         }
 
         if (task == null) {
-            return;
+            return; // Task not created
         }
         taskList.add(task);
         exportTaskList();
