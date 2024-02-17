@@ -1,6 +1,7 @@
-package Magus.task;
+package Magus.task.variant;
 
 import Magus.exception.ArgumentNotFoundException;
+import Magus.task.Task;
 import Magus.task.fileio.Parser;
 
 import java.util.List;

@@ -3,6 +3,9 @@ package Magus.task;
 import Magus.console.Console;
 import Magus.exception.ArgumentNotFoundException;
 import Magus.task.fileio.Parser;
+import Magus.task.variant.Deadline;
+import Magus.task.variant.Event;
+import Magus.task.variant.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
