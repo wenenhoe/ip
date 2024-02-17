@@ -71,6 +71,7 @@ public class TaskManager {
         }
 
         taskList.remove(task);
+        exportTaskList();
         Console.printResponse("Noted. I've removed this task:");
         Console.printResponse(task.toString(), 2);
         Console.printResponse("Now you have " + taskList.size() + " tasks in the list.");
