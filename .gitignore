@@ -19,3 +19,4 @@ text-ui-test/EXPECTED-UNIX.TXT
 
 # Saved program data file
 data/Magus.txt
+text-ui-test/data/Magus.txt
