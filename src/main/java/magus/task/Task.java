@@ -1,6 +1,6 @@
-package Magus.task;
+package magus.task;
 
-import static Magus.task.fileio.Parser.DELIMITER;
+import static magus.task.fileio.Parser.DELIMITER;
 
 public abstract class Task {
     protected final String description;

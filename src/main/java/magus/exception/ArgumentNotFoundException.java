@@ -1,4 +1,4 @@
-package Magus.exception;
+package magus.exception;
 
 public class ArgumentNotFoundException extends Exception {
     public ArgumentNotFoundException() {}

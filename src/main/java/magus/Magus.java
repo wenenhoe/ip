@@ -1,11 +1,11 @@
-package Magus;
+package magus;
 
-import Magus.console.Command;
-import Magus.console.CommandManager;
-import Magus.console.Console;
-import Magus.console.Parser;
-import Magus.exception.CommandNotFoundException;
-import Magus.task.TaskManager;
+import magus.console.Command;
+import magus.console.CommandManager;
+import magus.console.Console;
+import magus.console.Parser;
+import magus.exception.CommandNotFoundException;
+import magus.task.TaskManager;
 
 public class Magus {
     public static void main(String[] args) {

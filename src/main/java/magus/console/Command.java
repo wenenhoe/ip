@@ -1,4 +1,4 @@
-package Magus.console;
+package magus.console;
 
 public enum Command {
     UNKNOWN,

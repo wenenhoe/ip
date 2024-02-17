@@ -1,8 +1,8 @@
-package Magus.console;
+package magus.console;
 
-import Magus.exception.CommandNotFoundException;
-import Magus.task.TaskManager;
-import Magus.task.TaskType;
+import magus.exception.CommandNotFoundException;
+import magus.task.TaskManager;
+import magus.task.TaskType;
 
 public class CommandManager {
     public static void processInput(Parser parser, TaskManager taskManager)

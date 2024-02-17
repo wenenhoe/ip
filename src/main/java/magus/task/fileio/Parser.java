@@ -1,6 +1,6 @@
-package Magus.task.fileio;
+package magus.task.fileio;
 
-import Magus.task.TaskType;
+import magus.task.TaskType;
 
 import java.util.regex.Pattern;
 
