@@ -16,7 +16,12 @@ public class Todo extends Task {
     }
 
     @Override
+    public char getBadge() {
+        return 'T';
+    }
+
+    @Override
     public String toString() {
-        return String.format("[T]%s", super.toString());
+        return String.format("[%c]%s", getBadge(), super.toString());
     }
 }

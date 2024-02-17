@@ -32,8 +32,13 @@ public class Deadline extends Task {
     }
 
     @Override
+    public char getBadge() {
+        return 'D';
+    }
+
+    @Override
     public String toString() {
         String dateTimeInfo = String.format("(by: %s)", end);
-        return String.format("[D]%s %s", super.toString(), dateTimeInfo);
+        return String.format("[%c]%s %s", getBadge(), super.toString(), dateTimeInfo);
     }
 }

@@ -39,8 +39,13 @@ public class Event extends Task {
     }
 
     @Override
+    public char getBadge() {
+        return 'E';
+    }
+
+    @Override
     public String toString() {
         String dateTimeInfo = String.format(" (from: %s to: %s)", start, end);
-        return String.format("[E]%s %s", super.toString(), dateTimeInfo);
+        return String.format("[%c]%s %s", getBadge(), super.toString(), dateTimeInfo);
     }
 }
