@@ -6,6 +6,8 @@ import Magus.exception.ArgumentNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Magus.fileio.FileIo.writeTaskListFile;
+
 public class TaskManager {
     private final List<Task> taskList;
 
@@ -53,6 +55,7 @@ public class TaskManager {
             return;
         }
         taskList.add(task);
+        exportTaskList();
         Console.printResponse("Got it. I've added this task:");
         Console.printResponse(task.toString(), 2);
         Console.printResponse("Now you have " + taskList.size() + " tasks in the list.");
@@ -65,6 +68,7 @@ public class TaskManager {
         }
 
         task.markAsDone();
+        exportTaskList();
         Console.printResponse("Nice! I've marked this task as done:");
         Console.printResponse("  " + task);
     }
@@ -76,6 +80,7 @@ public class TaskManager {
         }
 
         task.unmarkAsDone();
+        exportTaskList();
         Console.printResponse("OK, I've marked this task as not done yet:");
         Console.printResponse("  " + task);
     }
@@ -88,5 +93,14 @@ public class TaskManager {
         } catch (IndexOutOfBoundsException ok) {
             return null; // Outside range of task list
         }
+    }
+
+    private void exportTaskList() {
+        List<String> taskCommandStrings = new ArrayList<>();
+        for (Task task: taskList) {
+            String taskCommandString = task.toStoredString();
+            taskCommandStrings.add(taskCommandString);
+        }
+        writeTaskListFile(taskCommandStrings);
     }
 }
