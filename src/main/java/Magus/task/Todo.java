@@ -24,4 +24,9 @@ public class Todo extends Task {
     public String toString() {
         return String.format("[%c]%s", getBadge(), super.toString());
     }
+
+    @Override
+    public String toStoredString() {
+        return String.format("%c\t|\t%s", getBadge(), super.toStoredString());
+    }
 }

@@ -41,4 +41,10 @@ public class Deadline extends Task {
         String dateTimeInfo = String.format("(by: %s)", end);
         return String.format("[%c]%s %s", getBadge(), super.toString(), dateTimeInfo);
     }
+
+    @Override
+    public String toStoredString() {
+        String deadlineInfo = String.format("%s\t|\t%s", super.toStoredString(), end);
+        return String.format("%c\t|\t%s", getBadge(), deadlineInfo);
+    }
 }

@@ -48,4 +48,11 @@ public class Event extends Task {
         String dateTimeInfo = String.format(" (from: %s to: %s)", start, end);
         return String.format("[%c]%s %s", getBadge(), super.toString(), dateTimeInfo);
     }
+
+    @Override
+    public String toStoredString() {
+        String dateTimeInfo = String.format("%s\t|\t%s", start, end);
+        String eventInfo = String.format("%s\t|\t%s", super.toStoredString(), dateTimeInfo);
+        return String.format("%c\t|\t%s", getBadge(), eventInfo);
+    }
 }

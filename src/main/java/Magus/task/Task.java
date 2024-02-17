@@ -16,6 +16,10 @@ public abstract class Task {
         return String.format("[%s] %s", getStatusIcon(), description);
     }
 
+    public String toStoredString() {
+        return String.format("%s\t|\t%s", isDone, description);
+    }
+
     public void markAsDone() {
         isDone = true;
     }
