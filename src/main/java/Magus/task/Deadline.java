@@ -5,6 +5,8 @@ import Magus.task.fileio.Parser;
 
 import java.util.List;
 
+import static Magus.task.fileio.Parser.DELIMITER;
+
 public class Deadline extends Task {
     private final String end;
 
@@ -66,7 +68,10 @@ public class Deadline extends Task {
 
     @Override
     public String toStoredString() {
-        String deadlineInfo = String.format("%s\t|\t%s", super.toStoredString(), end);
-        return String.format("%c\t|\t%s", getBadge(), deadlineInfo);
+        String ssFormatString = "%s" + DELIMITER + "%s"; // Double string format
+        String deadlineInfo = String.format(ssFormatString, super.toStoredString(), end);
+
+        String csFormatString = "%c" + DELIMITER + "%s"; // Single char and string format
+        return String.format(csFormatString, getBadge(), deadlineInfo);
     }
 }

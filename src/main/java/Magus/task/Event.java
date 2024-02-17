@@ -5,6 +5,8 @@ import Magus.task.fileio.Parser;
 
 import java.util.List;
 
+import static Magus.task.fileio.Parser.DELIMITER;
+
 public class Event extends Task {
     private final String start;
     private final String end;
@@ -74,8 +76,11 @@ public class Event extends Task {
 
     @Override
     public String toStoredString() {
-        String dateTimeInfo = String.format("%s\t|\t%s", start, end);
-        String eventInfo = String.format("%s\t|\t%s", super.toStoredString(), dateTimeInfo);
-        return String.format("%c\t|\t%s", getBadge(), eventInfo);
+        String ssFormatString = "%s" + DELIMITER + "%s"; // Double string format
+        String dateTimeInfo = String.format(ssFormatString, start, end);
+        String eventInfo = String.format(ssFormatString, super.toStoredString(), dateTimeInfo);
+
+        String csFormatString = "%c" + DELIMITER + "%s"; // Single char and string format
+        return String.format(csFormatString, getBadge(), eventInfo);
     }
 }

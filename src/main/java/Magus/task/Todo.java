@@ -3,6 +3,8 @@ package Magus.task;
 import Magus.exception.ArgumentNotFoundException;
 import Magus.task.fileio.Parser;
 
+import static Magus.task.fileio.Parser.DELIMITER;
+
 public class Todo extends Task {
     public Todo(String description) {
         super(description);
@@ -46,6 +48,7 @@ public class Todo extends Task {
 
     @Override
     public String toStoredString() {
-        return String.format("%c\t|\t%s", getBadge(), super.toStoredString());
+        String formatString = "%c" + DELIMITER + "%s";
+        return String.format(formatString, getBadge(), super.toStoredString());
     }
 }

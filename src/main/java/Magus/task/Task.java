@@ -1,5 +1,7 @@
 package Magus.task;
 
+import static Magus.task.fileio.Parser.DELIMITER;
+
 public abstract class Task {
     protected final String description;
     private boolean isDone;
@@ -17,7 +19,8 @@ public abstract class Task {
     }
 
     public String toStoredString() {
-        return String.format("%s\t|\t%s", isDone, description);
+        String formatString = "%s" + DELIMITER + "%s";
+        return String.format(formatString, isDone, description);
     }
 
     public void markAsDone() {

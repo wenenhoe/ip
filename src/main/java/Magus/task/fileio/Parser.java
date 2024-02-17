@@ -5,11 +5,11 @@ import Magus.task.TaskType;
 import java.util.regex.Pattern;
 
 public class Parser {
+    public static final String DELIMITER = "\t|\t";
+    private static final String DELIMITER_REGEX = Pattern.quote(DELIMITER);
     private TaskType taskType;
     private boolean isDone;
     private String taskInfo;
-    private static final String DELIMITER = "\t|\t";
-    private static final String DELIMITER_REGEX = Pattern.quote(DELIMITER);
 
     public Parser(String storedString) {
         int maxSplitCount = 3; // Obtain the task badge and task completion status
