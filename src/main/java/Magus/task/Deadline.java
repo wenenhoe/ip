@@ -1,6 +1,7 @@
 package Magus.task;
 
 import Magus.exception.ArgumentNotFoundException;
+import Magus.task.fileio.Parser;
 
 import java.util.List;
 
@@ -29,6 +30,27 @@ public class Deadline extends Task {
         String end = String.join(" ", byList);
 
         return new Deadline(description, end);
+    }
+
+    public static Deadline parseStoredTaskInfo(Parser parser) {
+        String taskInfo = parser.getTaskInfo();
+        String[] taskInfoSplit = Parser.split(taskInfo);
+        if (taskInfoSplit.length != 2) {
+            return null;
+        }
+
+        String description = taskInfoSplit[0];
+        String end = taskInfoSplit[1];
+        Deadline deadline = new Deadline(description, end);
+
+        boolean isDone = parser.isDone();
+        if (isDone) {
+            deadline.markAsDone();
+        } else {
+            deadline.unmarkAsDone();
+        }
+
+        return deadline;
     }
 
     @Override

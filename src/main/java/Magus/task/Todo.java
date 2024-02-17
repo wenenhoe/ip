@@ -1,6 +1,7 @@
 package Magus.task;
 
 import Magus.exception.ArgumentNotFoundException;
+import Magus.task.fileio.Parser;
 
 public class Todo extends Task {
     public Todo(String description) {
@@ -13,6 +14,24 @@ public class Todo extends Task {
             throw new ArgumentNotFoundException(taskInfo);
         }
         return new Todo(taskInfo);
+    }
+
+    public static Todo parseStoredTaskInfo(Parser parser) {
+        try {
+            String description = parser.getTaskInfo();
+            Todo todo = parse(description);
+
+            boolean isDone = parser.isDone();
+            if (isDone) {
+                todo.markAsDone();
+            } else {
+                todo.unmarkAsDone();
+            }
+
+            return todo;
+        } catch (ArgumentNotFoundException e) {
+            return null;
+        }
     }
 
     @Override

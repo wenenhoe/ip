@@ -1,6 +1,7 @@
 package Magus.task;
 
 import Magus.exception.ArgumentNotFoundException;
+import Magus.task.fileio.Parser;
 
 import java.util.List;
 
@@ -36,6 +37,28 @@ public class Event extends Task {
         String end = String.join(" ", endList);
 
         return new Event(description, start, end);
+    }
+
+    public static Event parseStoredTaskInfo(Parser parser) {
+        String taskInfo = parser.getTaskInfo();
+        String[] taskInfoSplit = Parser.split(taskInfo);
+        if (taskInfoSplit.length != 3) {
+            return null;
+        }
+
+        String description = taskInfoSplit[0];
+        String start = taskInfoSplit[1];
+        String end = taskInfoSplit[2];
+        Event event = new Event(description, start, end);
+
+        boolean isDone = parser.isDone();
+        if (isDone) {
+            event.markAsDone();
+        } else {
+            event.unmarkAsDone();
+        }
+
+        return event;
     }
 
     @Override

@@ -2,10 +2,12 @@ package Magus.task;
 
 import Magus.console.Console;
 import Magus.exception.ArgumentNotFoundException;
+import Magus.task.fileio.Parser;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static Magus.task.fileio.FileIo.readTaskListFile;
 import static Magus.task.fileio.FileIo.writeTaskListFile;
 
 public class TaskManager {
@@ -13,6 +15,7 @@ public class TaskManager {
 
     public TaskManager() {
         this.taskList = new ArrayList<>();
+        importTaskList();
     }
 
     public void printTaskList() {
@@ -92,6 +95,32 @@ public class TaskManager {
             return taskList.get(taskNum);
         } catch (IndexOutOfBoundsException ok) {
             return null; // Outside range of task list
+        }
+    }
+
+    private void importTaskList() {
+        List<String> taskCommandStrings = readTaskListFile();
+        for (String taskCommandString: taskCommandStrings) {
+            Parser parser = new Parser(taskCommandString);
+            TaskType taskType = parser.getTaskType();
+
+            Task task = null;
+            switch (taskType) {
+            case TODO:
+                task = Todo.parseStoredTaskInfo(parser);
+                break;
+            case DEADLINE:
+                task = Deadline.parseStoredTaskInfo(parser);
+                break;
+            case EVENT:
+                task = Event.parseStoredTaskInfo(parser);
+                break;
+            }
+
+            if (task == null) {
+                return; // Task not created
+            }
+            taskList.add(task);
         }
     }
 
