@@ -1,8 +1,11 @@
 package Magus.task;
 
 import Magus.exception.ArgumentNotFoundException;
+import Magus.task.fileio.Parser;
 
 import java.util.List;
+
+import static Magus.task.fileio.Parser.DELIMITER;
 
 public class Deadline extends Task {
     private final String end;
@@ -31,9 +34,44 @@ public class Deadline extends Task {
         return new Deadline(description, end);
     }
 
+    public static Deadline parseStoredTaskInfo(Parser parser) {
+        String taskInfo = parser.getTaskInfo();
+        String[] taskInfoSplit = Parser.split(taskInfo);
+        if (taskInfoSplit.length != 2) {
+            return null;
+        }
+
+        String description = taskInfoSplit[0];
+        String end = taskInfoSplit[1];
+        Deadline deadline = new Deadline(description, end);
+
+        boolean isDone = parser.isDone();
+        if (isDone) {
+            deadline.markAsDone();
+        } else {
+            deadline.unmarkAsDone();
+        }
+
+        return deadline;
+    }
+
+    @Override
+    public char getBadge() {
+        return 'D';
+    }
+
     @Override
     public String toString() {
         String dateTimeInfo = String.format("(by: %s)", end);
-        return String.format("[D]%s %s", super.toString(), dateTimeInfo);
+        return String.format("[%c]%s %s", getBadge(), super.toString(), dateTimeInfo);
+    }
+
+    @Override
+    public String toStoredString() {
+        String ssFormatString = "%s" + DELIMITER + "%s"; // Double string format
+        String deadlineInfo = String.format(ssFormatString, super.toStoredString(), end);
+
+        String csFormatString = "%c" + DELIMITER + "%s"; // Single char and string format
+        return String.format(csFormatString, getBadge(), deadlineInfo);
     }
 }

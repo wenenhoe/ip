@@ -1,6 +1,9 @@
 package Magus.task;
 
 import Magus.exception.ArgumentNotFoundException;
+import Magus.task.fileio.Parser;
+
+import static Magus.task.fileio.Parser.DELIMITER;
 
 public class Todo extends Task {
     public Todo(String description) {
@@ -15,8 +18,37 @@ public class Todo extends Task {
         return new Todo(taskInfo);
     }
 
+    public static Todo parseStoredTaskInfo(Parser parser) {
+        try {
+            String description = parser.getTaskInfo();
+            Todo todo = parse(description);
+
+            boolean isDone = parser.isDone();
+            if (isDone) {
+                todo.markAsDone();
+            } else {
+                todo.unmarkAsDone();
+            }
+
+            return todo;
+        } catch (ArgumentNotFoundException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public char getBadge() {
+        return 'T';
+    }
+
     @Override
     public String toString() {
-        return String.format("[T]%s", super.toString());
+        return String.format("[%c]%s", getBadge(), super.toString());
+    }
+
+    @Override
+    public String toStoredString() {
+        String formatString = "%c" + DELIMITER + "%s";
+        return String.format(formatString, getBadge(), super.toStoredString());
     }
 }

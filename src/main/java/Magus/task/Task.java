@@ -1,7 +1,9 @@
 package Magus.task;
 
-public class Task {
-    private final String description;
+import static Magus.task.fileio.Parser.DELIMITER;
+
+public abstract class Task {
+    protected final String description;
     private boolean isDone;
 
     protected Task(String description) {
@@ -9,9 +11,16 @@ public class Task {
         this.isDone = false;
     }
 
+    public abstract char getBadge();
+
     @Override
     public String toString() {
         return String.format("[%s] %s", getStatusIcon(), description);
+    }
+
+    public String toStoredString() {
+        String formatString = "%s" + DELIMITER + "%s";
+        return String.format(formatString, isDone, description);
     }
 
     public void markAsDone() {

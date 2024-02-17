@@ -1,8 +1,11 @@
 package Magus.task;
 
 import Magus.exception.ArgumentNotFoundException;
+import Magus.task.fileio.Parser;
 
 import java.util.List;
+
+import static Magus.task.fileio.Parser.DELIMITER;
 
 public class Event extends Task {
     private final String start;
@@ -38,9 +41,46 @@ public class Event extends Task {
         return new Event(description, start, end);
     }
 
+    public static Event parseStoredTaskInfo(Parser parser) {
+        String taskInfo = parser.getTaskInfo();
+        String[] taskInfoSplit = Parser.split(taskInfo);
+        if (taskInfoSplit.length != 3) {
+            return null;
+        }
+
+        String description = taskInfoSplit[0];
+        String start = taskInfoSplit[1];
+        String end = taskInfoSplit[2];
+        Event event = new Event(description, start, end);
+
+        boolean isDone = parser.isDone();
+        if (isDone) {
+            event.markAsDone();
+        } else {
+            event.unmarkAsDone();
+        }
+
+        return event;
+    }
+
+    @Override
+    public char getBadge() {
+        return 'E';
+    }
+
     @Override
     public String toString() {
         String dateTimeInfo = String.format(" (from: %s to: %s)", start, end);
-        return String.format("[E]%s %s", super.toString(), dateTimeInfo);
+        return String.format("[%c]%s %s", getBadge(), super.toString(), dateTimeInfo);
+    }
+
+    @Override
+    public String toStoredString() {
+        String ssFormatString = "%s" + DELIMITER + "%s"; // Double string format
+        String dateTimeInfo = String.format(ssFormatString, start, end);
+        String eventInfo = String.format(ssFormatString, super.toStoredString(), dateTimeInfo);
+
+        String csFormatString = "%c" + DELIMITER + "%s"; // Single char and string format
+        return String.format(csFormatString, getBadge(), eventInfo);
     }
 }
