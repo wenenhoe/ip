@@ -6,29 +6,35 @@ import java.util.List;
 
 public class Parser {
     private TaskType taskType;
-    private String additionalInfo;
-    private static final String DELIMITER =  "\t|\t";
+    private boolean isDone;
+    private String taskInfo;
+    private static final String DELIMITER = "\t|\t";
 
     public Parser(String storedString) {
-        int maxSplitCount = 2; // Just to obtain the task badge
         String[] storedStringSplit = storedString.split(DELIMITER, maxSplitCount);
+        int maxSplitCount = 3; // Obtain the task badge and task completion status
 
-        if (storedStringSplit.length != 2) {
-            return; // Invalid stored string, does not contain task type
+        if (storedStringSplit.length != maxSplitCount) {
+            return; // Invalid stored string
         }
 
         char badge = storedStringSplit[0].charAt(0);
         taskType = TaskType.getEnum(badge);
 
-        additionalInfo = storedStringSplit[1];
+        isDone = Boolean.parseBoolean(storedStringSplit[1]);
+        taskInfo = storedStringSplit[2];
     }
 
     public TaskType getTaskType() {
         return taskType;
     }
 
-    public String getAdditionalInfo() {
-        return additionalInfo;
+    public String getTaskInfo() {
+        return taskInfo;
+    }
+
+    public boolean isDone() {
+        return isDone;
     }
 
     public static String[] split(String taskInfo) {
