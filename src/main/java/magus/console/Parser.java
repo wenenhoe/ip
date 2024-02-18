@@ -1,6 +1,7 @@
 package magus.console;
 
 public class Parser {
+    private final String commandCandidate;
     private final Command command;
     private final String additionalInput;
 
@@ -11,6 +12,7 @@ public class Parser {
         if (firstSpaceIndex != -1) {
             firstWord = input.substring(0, firstSpaceIndex);
         }
+        commandCandidate = firstWord;
         Command command = Command.getEnum(firstWord);
 
         // Parse additional input
@@ -32,6 +34,10 @@ public class Parser {
             command = Command.UNKNOWN;
         }
         this.command = command;
+    }
+
+    public String getCommandCandidate() {
+        return commandCandidate;
     }
 
     public Command getCommand() {

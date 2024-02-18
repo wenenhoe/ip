@@ -23,7 +23,8 @@ public class Deadline extends Task {
         int commandIndex = infoList.indexOf(commandArg);
         if (commandIndex == -1) {
             // Unable to find the arg /by
-            throw new ArgumentNotFoundException(taskInfo);
+            String errorContext = String.format("Missing /by argument in \"%s\"", taskInfo);
+            throw new ArgumentNotFoundException(errorContext);
         }
 
         List<String> descriptionList = infoList.subList(0, commandIndex);

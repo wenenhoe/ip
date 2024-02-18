@@ -14,7 +14,8 @@ public class Todo extends Task {
     public static Todo parse(String taskInfo) throws ArgumentNotFoundException {
         boolean hasNoDescription = taskInfo.isEmpty();
         if (hasNoDescription) {
-            throw new ArgumentNotFoundException(taskInfo);
+            String errorContext = "Missing description";
+            throw new ArgumentNotFoundException(errorContext);
         }
         return new Todo(taskInfo);
     }

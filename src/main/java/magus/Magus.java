@@ -19,7 +19,9 @@ public class Magus {
             try {
                 CommandManager.processInput(parser, taskManager);
             } catch (CommandNotFoundException e) {
-                Console.printError(e);
+                String errorContext = String.format("Unknown command in \"%s\"",
+                        parser.getCommandCandidate());
+                Console.printError(new CommandNotFoundException(errorContext));
             }
 
             // Exit when bye command issued

@@ -24,10 +24,16 @@ public class Event extends Task {
 
         List<String> infoList = List.of(taskInfo.split(" "));
         int commandFromIndex = infoList.indexOf(commandFromArg);
+        if (commandFromIndex == -1) {
+            // Unable to find the arg /from
+            String errorContext = String.format("Missing /from argument in \"%s\"", taskInfo);
+            throw new ArgumentNotFoundException(errorContext);
+        }
         int commandToIndex = infoList.indexOf(commandToArg);
-        if (commandFromIndex == -1 || commandToIndex == -1) {
-            // Unable to find either of the 2 args /from and /to
-            throw new ArgumentNotFoundException(taskInfo);
+        if (commandToIndex == -1) {
+            // Unable to find the arg /to
+            String errorContext = String.format("Missing /to argument in \"%s\"", taskInfo);
+            throw new ArgumentNotFoundException(errorContext);
         }
 
         List<String> descriptionList = infoList.subList(0, commandFromIndex);
