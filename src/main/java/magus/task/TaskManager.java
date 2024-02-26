@@ -9,6 +9,7 @@ import magus.task.variant.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static magus.task.storage.FileIo.readTaskListFile;
 import static magus.task.storage.FileIo.writeTaskListFile;
@@ -102,6 +103,19 @@ public class TaskManager {
         exportTaskList();
         Console.printResponse("OK, I've marked this task as not done yet:");
         Console.printResponse("  " + task);
+    }
+
+    public void findTasks(String searchString) {
+        List<Task> filteredTaskList = taskList.stream()
+                .filter(t -> t.getDescription().contains(searchString))
+                .collect(Collectors.toList());
+
+        int taskNum = 1;
+        Console.printResponse("Here are the matching tasks in your list:");
+        for (Task task: filteredTaskList) {
+            Console.printResponse(taskNum + "." + task.toString());
+            taskNum++;
+        }
     }
 
     private Task getTask(int taskNum) {

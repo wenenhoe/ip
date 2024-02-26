@@ -17,6 +17,9 @@ public class CommandManager {
         case LIST:
             taskManager.printTaskList();
             break;
+        case FIND:
+            taskManager.findTasks(additionalInput);
+            break;
         case BYE:
             Console.printResponse("Bye. Hope to see you again soon!");
             break;
