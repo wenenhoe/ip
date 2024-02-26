@@ -2,11 +2,11 @@ package magus.task.variant;
 
 import magus.exception.ArgumentNotFoundException;
 import magus.task.Task;
-import magus.task.fileio.Parser;
+import magus.task.storage.Parser;
 
 import java.util.List;
 
-import static magus.task.fileio.Parser.DELIMITER;
+import static magus.task.storage.Parser.DELIMITER;
 
 public class Event extends Task {
     private final String start;

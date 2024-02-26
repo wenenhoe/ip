@@ -2,9 +2,9 @@ package magus.task.variant;
 
 import magus.exception.ArgumentNotFoundException;
 import magus.task.Task;
-import magus.task.fileio.Parser;
+import magus.task.storage.Parser;
 
-import static magus.task.fileio.Parser.DELIMITER;
+import static magus.task.storage.Parser.DELIMITER;
 
 public class Todo extends Task {
     public Todo(String description) {

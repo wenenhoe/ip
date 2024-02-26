@@ -1,4 +1,4 @@
-package magus.task.fileio;
+package magus.task.storage;
 
 import magus.task.TaskType;
 

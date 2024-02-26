@@ -2,7 +2,7 @@ package magus.task;
 
 import magus.console.Console;
 import magus.exception.ArgumentNotFoundException;
-import magus.task.fileio.Parser;
+import magus.task.storage.Parser;
 import magus.task.variant.Deadline;
 import magus.task.variant.Event;
 import magus.task.variant.Todo;
@@ -10,8 +10,8 @@ import magus.task.variant.Todo;
 import java.util.ArrayList;
 import java.util.List;
 
-import static magus.task.fileio.FileIo.readTaskListFile;
-import static magus.task.fileio.FileIo.writeTaskListFile;
+import static magus.task.storage.FileIo.readTaskListFile;
+import static magus.task.storage.FileIo.writeTaskListFile;
 
 public class TaskManager {
     private final List<Task> taskList;
