@@ -4,14 +4,15 @@ import magus.exception.ArgumentNotFoundException;
 import magus.task.Task;
 import magus.task.storage.Parser;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static magus.task.storage.Parser.DELIMITER;
 
 public class Deadline extends Task {
-    private final String end;
+    private final LocalDate end;
 
-    public Deadline(String description, String end) {
+    public Deadline(String description, LocalDate end) {
         super(description);
         this.end = end;
     }
@@ -31,7 +32,8 @@ public class Deadline extends Task {
         String description = String.join(" ", descriptionList);
 
         List<String> byList = infoList.subList(commandIndex + 1, infoList.size());
-        String end = String.join(" ", byList);
+        String endString = String.join(" ", byList);
+        LocalDate end = LocalDate.parse(endString);
 
         return new Deadline(description, end);
     }
@@ -44,7 +46,8 @@ public class Deadline extends Task {
         }
 
         String description = taskInfoSplit[0];
-        String end = taskInfoSplit[1];
+        String endString = taskInfoSplit[1];
+        LocalDate end = LocalDate.parse(endString);
         Deadline deadline = new Deadline(description, end);
 
         boolean isDone = parser.isDone();
