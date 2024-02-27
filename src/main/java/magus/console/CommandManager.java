@@ -15,7 +15,7 @@ public class CommandManager {
         case UNKNOWN:
             throw new CommandNotFoundException();
         case LIST:
-            taskManager.printTaskList();
+            taskManager.printAllTasks();
             break;
         case FIND:
             taskManager.findTasks(additionalInput);

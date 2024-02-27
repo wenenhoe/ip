@@ -22,13 +22,9 @@ public class TaskManager {
         importTaskList();
     }
 
-    public void printTaskList() {
-        int taskNum = 1;
+    public void printAllTasks() {
         Console.printResponse("Here are the tasks in your list:");
-        for (Task task: taskList) {
-            Console.printResponse(taskNum + "." + task.toString());
-            taskNum++;
-        }
+        printTaskList(taskList);
     }
 
     public void addTask(TaskType taskType, String taskInfo) {
@@ -110,9 +106,13 @@ public class TaskManager {
                 .filter(t -> t.getDescription().contains(searchString))
                 .collect(Collectors.toList());
 
-        int taskNum = 1;
         Console.printResponse("Here are the matching tasks in your list:");
-        for (Task task: filteredTaskList) {
+        printTaskList(filteredTaskList);
+    }
+
+    private void printTaskList(List<Task> taskList) {
+        int taskNum = 1;
+        for (Task task: taskList) {
             Console.printResponse(taskNum + "." + task.toString());
             taskNum++;
         }
