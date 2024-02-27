@@ -4,15 +4,16 @@ import magus.exception.ArgumentNotFoundException;
 import magus.task.Task;
 import magus.task.storage.Parser;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static magus.task.storage.Parser.DELIMITER;
 
 public class Event extends Task {
-    private final String start;
-    private final String end;
+    private final LocalDate start;
+    private final LocalDate end;
 
-    public Event(String description, String start, String end) {
+    public Event(String description, LocalDate start, LocalDate end) {
         super(description);
         this.start = start;
         this.end = end;
@@ -40,10 +41,12 @@ public class Event extends Task {
         String description = String.join(" ", descriptionList);
 
         List<String> startList = infoList.subList(commandFromIndex + 1, commandToIndex);
-        String start = String.join(" ", startList);
+        String startString = String.join(" ", startList);
+        LocalDate start = LocalDate.parse(startString);
 
         List<String> endList = infoList.subList(commandToIndex + 1, infoList.size());
-        String end = String.join(" ", endList);
+        String endString = String.join(" ", endList);
+        LocalDate end = LocalDate.parse(endString);
 
         return new Event(description, start, end);
     }
@@ -56,8 +59,10 @@ public class Event extends Task {
         }
 
         String description = taskInfoSplit[0];
-        String start = taskInfoSplit[1];
-        String end = taskInfoSplit[2];
+        String startString = taskInfoSplit[1];
+        LocalDate start = LocalDate.parse(startString);
+        String endString = taskInfoSplit[2];
+        LocalDate end = LocalDate.parse(endString);
         Event event = new Event(description, start, end);
 
         boolean isDone = parser.isDone();
