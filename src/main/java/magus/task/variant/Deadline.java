@@ -4,14 +4,15 @@ import magus.exception.ArgumentNotFoundException;
 import magus.task.Task;
 import magus.task.storage.Parser;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import static magus.task.storage.Parser.DELIMITER;
 
 public class Deadline extends Task {
-    private final String end;
+    private final LocalDate end;
 
-    public Deadline(String description, String end) {
+    public Deadline(String description, LocalDate end) {
         super(description);
         this.end = end;
     }
@@ -30,11 +31,12 @@ public class Deadline extends Task {
             throw new ArgumentNotFoundException(errorContext);
         }
 
-        String end = parsedArgs.get(byCommand);
-        if (end.isEmpty()) {
+        String endString = parsedArgs.get(byCommand);
+        if (endString.isEmpty()) {
             String errorContext = String.format("Missing info specified in %s", byCommand);
             throw new ArgumentNotFoundException(errorContext);
         }
+        LocalDate end = LocalDate.parse(endString);
 
         return new Deadline(description, end);
     }
@@ -47,7 +49,8 @@ public class Deadline extends Task {
         }
 
         String description = taskInfoSplit[0];
-        String end = taskInfoSplit[1];
+        String endString = taskInfoSplit[1];
+        LocalDate end = LocalDate.parse(endString);
         Deadline deadline = new Deadline(description, end);
 
         boolean isDone = parser.isDone();

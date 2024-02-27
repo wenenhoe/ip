@@ -4,15 +4,16 @@ import magus.exception.ArgumentNotFoundException;
 import magus.task.Task;
 import magus.task.storage.Parser;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import static magus.task.storage.Parser.DELIMITER;
 
 public class Event extends Task {
-    private final String start;
-    private final String end;
+    private final LocalDate start;
+    private final LocalDate end;
 
-    public Event(String description, String start, String end) {
+    public Event(String description, LocalDate start, LocalDate end) {
         super(description);
         this.start = start;
         this.end = end;
@@ -34,17 +35,19 @@ public class Event extends Task {
             throw new ArgumentNotFoundException(errorContext);
         }
 
-        String start = parsedArgs.get(fromCommand);
-        if (start.isEmpty()) {
+        String startString = parsedArgs.get(fromCommand);
+        if (startString.isEmpty()) {
             String errorContext = String.format("Missing info specified in %s", fromCommand);
             throw new ArgumentNotFoundException(errorContext);
         }
+        LocalDate start = LocalDate.parse(startString);
 
-        String end = parsedArgs.get(toCommand);
-        if (end.isEmpty()) {
+        String endString = parsedArgs.get(toCommand);
+        if (endString.isEmpty()) {
             String errorContext = String.format("Missing info specified in %s", toCommand);
             throw new ArgumentNotFoundException(errorContext);
         }
+        LocalDate end = LocalDate.parse(endString);
 
         return new Event(description, start, end);
     }
@@ -57,8 +60,10 @@ public class Event extends Task {
         }
 
         String description = taskInfoSplit[0];
-        String start = taskInfoSplit[1];
-        String end = taskInfoSplit[2];
+        String startString = taskInfoSplit[1];
+        LocalDate start = LocalDate.parse(startString);
+        String endString = taskInfoSplit[2];
+        LocalDate end = LocalDate.parse(endString);
         Event event = new Event(description, start, end);
 
         boolean isDone = parser.isDone();
