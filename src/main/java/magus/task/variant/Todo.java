@@ -21,21 +21,20 @@ public class Todo extends Task {
     }
 
     public static Todo parseStoredTaskInfo(Parser parser) {
-        try {
-            String description = parser.getTaskInfo();
-            Todo todo = parse(description);
-
-            boolean isDone = parser.isDone();
-            if (isDone) {
-                todo.markAsDone();
-            } else {
-                todo.unmarkAsDone();
-            }
-
-            return todo;
-        } catch (ArgumentNotFoundException e) {
+        String description = parser.getTaskInfo();
+        boolean hasNoDescription = description.isEmpty();
+        if (hasNoDescription) {
             return null;
         }
+        Todo todo = new Todo(description);
+
+        boolean isDone = parser.isDone();
+        if (isDone) {
+            todo.markAsDone();
+        } else {
+            todo.unmarkAsDone();
+        }
+        return todo;
     }
 
     @Override
