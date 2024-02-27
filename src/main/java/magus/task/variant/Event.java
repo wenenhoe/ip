@@ -4,7 +4,7 @@ import magus.exception.ArgumentNotFoundException;
 import magus.task.Task;
 import magus.task.storage.Parser;
 
-import java.util.List;
+import java.util.Map;
 
 import static magus.task.storage.Parser.DELIMITER;
 
@@ -18,32 +18,33 @@ public class Event extends Task {
         this.end = end;
     }
 
-    public static Event parse(String taskInfo) throws ArgumentNotFoundException {
-        String commandFromArg = "/from";
-        String commandToArg = "/to";
+    public static Event parseConsoleTaskInfo(magus.console.Parser parser)
+            throws ArgumentNotFoundException {
+        String descriptionCommand = "";
+        String fromCommand = "/from";
+        String toCommand = "/to";
+        Map<String, String> parsedArgs = parser.parseAdditionalInput(
+                true,
+                fromCommand,
+                toCommand);
 
-        List<String> infoList = List.of(taskInfo.split(" "));
-        int commandFromIndex = infoList.indexOf(commandFromArg);
-        if (commandFromIndex == -1) {
-            // Unable to find the arg /from
-            String errorContext = String.format("Missing /from argument in \"%s\"", taskInfo);
+        String description = parsedArgs.get(descriptionCommand);
+        if (description.isEmpty()) {
+            String errorContext = "Missing description";
             throw new ArgumentNotFoundException(errorContext);
         }
-        int commandToIndex = infoList.indexOf(commandToArg);
-        if (commandToIndex == -1) {
-            // Unable to find the arg /to
-            String errorContext = String.format("Missing /to argument in \"%s\"", taskInfo);
+
+        String start = parsedArgs.get(fromCommand);
+        if (start.isEmpty()) {
+            String errorContext = String.format("Missing info specified in %s", fromCommand);
             throw new ArgumentNotFoundException(errorContext);
         }
 
-        List<String> descriptionList = infoList.subList(0, commandFromIndex);
-        String description = String.join(" ", descriptionList);
-
-        List<String> startList = infoList.subList(commandFromIndex + 1, commandToIndex);
-        String start = String.join(" ", startList);
-
-        List<String> endList = infoList.subList(commandToIndex + 1, infoList.size());
-        String end = String.join(" ", endList);
+        String end = parsedArgs.get(toCommand);
+        if (end.isEmpty()) {
+            String errorContext = String.format("Missing info specified in %s", toCommand);
+            throw new ArgumentNotFoundException(errorContext);
+        }
 
         return new Event(description, start, end);
     }

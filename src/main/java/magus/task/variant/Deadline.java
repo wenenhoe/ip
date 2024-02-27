@@ -4,7 +4,7 @@ import magus.exception.ArgumentNotFoundException;
 import magus.task.Task;
 import magus.task.storage.Parser;
 
-import java.util.List;
+import java.util.Map;
 
 import static magus.task.storage.Parser.DELIMITER;
 
@@ -16,22 +16,25 @@ public class Deadline extends Task {
         this.end = end;
     }
 
-    public static Deadline parse(String taskInfo) throws ArgumentNotFoundException {
-        String commandArg = "/by";
+    public static Deadline parseConsoleTaskInfo(magus.console.Parser parser)
+            throws ArgumentNotFoundException {
+        String descriptionCommand = "";
+        String byCommand = "/by";
+        Map<String, String> parsedArgs = parser.parseAdditionalInput(
+                true,
+                byCommand);
 
-        List<String> infoList = List.of(taskInfo.split(" "));
-        int commandIndex = infoList.indexOf(commandArg);
-        if (commandIndex == -1) {
-            // Unable to find the arg /by
-            String errorContext = String.format("Missing /by argument in \"%s\"", taskInfo);
+        String description = parsedArgs.get(descriptionCommand);
+        if (description.isEmpty()) {
+            String errorContext = "Missing description";
             throw new ArgumentNotFoundException(errorContext);
         }
 
-        List<String> descriptionList = infoList.subList(0, commandIndex);
-        String description = String.join(" ", descriptionList);
-
-        List<String> byList = infoList.subList(commandIndex + 1, infoList.size());
-        String end = String.join(" ", byList);
+        String end = parsedArgs.get(byCommand);
+        if (end.isEmpty()) {
+            String errorContext = String.format("Missing info specified in %s", byCommand);
+            throw new ArgumentNotFoundException(errorContext);
+        }
 
         return new Deadline(description, end);
     }

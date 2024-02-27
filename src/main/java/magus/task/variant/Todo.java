@@ -4,6 +4,8 @@ import magus.exception.ArgumentNotFoundException;
 import magus.task.Task;
 import magus.task.storage.Parser;
 
+import java.util.Map;
+
 import static magus.task.storage.Parser.DELIMITER;
 
 public class Todo extends Task {
@@ -11,13 +13,17 @@ public class Todo extends Task {
         super(description);
     }
 
-    public static Todo parse(String taskInfo) throws ArgumentNotFoundException {
-        boolean hasNoDescription = taskInfo.isEmpty();
+    public static Todo parseConsoleTaskInfo(magus.console.Parser parser)
+            throws ArgumentNotFoundException {
+        String descriptionCommand = "";
+        Map<String, String> parsedArgs = parser.parseAdditionalInput(true);
+        String description = parsedArgs.get(descriptionCommand);
+        boolean hasNoDescription = description.isEmpty();
         if (hasNoDescription) {
             String errorContext = "Missing description";
             throw new ArgumentNotFoundException(errorContext);
         }
-        return new Todo(taskInfo);
+        return new Todo(description);
     }
 
     public static Todo parseStoredTaskInfo(Parser parser) {
