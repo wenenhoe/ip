@@ -36,13 +36,13 @@ public class CommandManager {
             taskManager.deleteTask(taskNum);
             break;
         case TODO:
-            taskManager.addTask(TaskType.TODO, additionalInput);
+            taskManager.addTask(TaskType.TODO, parser);
             break;
         case DEADLINE:
-            taskManager.addTask(TaskType.DEADLINE, additionalInput);
+            taskManager.addTask(TaskType.DEADLINE, parser);
             break;
         case EVENT:
-            taskManager.addTask(TaskType.EVENT, additionalInput);
+            taskManager.addTask(TaskType.EVENT, parser);
             break;
         }
     }

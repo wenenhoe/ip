@@ -27,27 +27,27 @@ public class TaskManager {
         printTaskList(taskList);
     }
 
-    public void addTask(TaskType taskType, String taskInfo) {
+    public void addTask(TaskType taskType, magus.console.Parser parser) {
         Task task = null;
 
         switch (taskType) {
         case TODO:
             try {
-                task = Todo.parse(taskInfo);
+                task = Todo.parseConsoleTaskInfo(parser);
             } catch (ArgumentNotFoundException e) {
                 Console.printError(taskType.toString(), e);
             }
             break;
         case DEADLINE:
             try {
-                task = Deadline.parse(taskInfo);
+                task = Deadline.parseConsoleTaskInfo(parser);
             } catch (ArgumentNotFoundException e) {
                 Console.printError(taskType.toString(), e);
             }
             break;
         case EVENT:
             try {
-                task = Event.parse(taskInfo);
+                task = Event.parseConsoleTaskInfo(parser);
             } catch (ArgumentNotFoundException e) {
                 Console.printError(taskType.toString(), e);
             }
