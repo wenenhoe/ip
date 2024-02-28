@@ -9,7 +9,6 @@ import magus.task.variant.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static magus.task.storage.FileIo.readTaskListFile;
 import static magus.task.storage.FileIo.writeTaskListFile;
@@ -101,13 +100,14 @@ public class TaskManager {
         Console.printResponse("  " + task);
     }
 
-    public void findTasks(String searchString) {
-        List<Task> filteredTaskList = taskList.stream()
-                .filter(t -> t.getDescription().contains(searchString))
-                .collect(Collectors.toList());
+    public void findTasks(magus.console.Parser parser) {
+        TaskFinder taskFinder = new TaskFinder(taskList);
+        List<Task> filteredTaskList = taskFinder.filterTasks(parser);
 
-        Console.printResponse("Here are the matching tasks in your list:");
-        printTaskList(filteredTaskList);
+        if (filteredTaskList != null) {
+            Console.printResponse("Here are the matching tasks in your list:");
+            printTaskList(filteredTaskList);
+        }
     }
 
     private void printTaskList(List<Task> taskList) {
