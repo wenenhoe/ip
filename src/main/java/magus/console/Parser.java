@@ -121,6 +121,7 @@ public class Parser {
 
         for (Map.Entry<Integer, String> index: indexes.entrySet()) {
             if (endIndex == -1) {
+                endIndex = startIndex; // allow next iteration to set endIndex
                 continue;
             }
 
