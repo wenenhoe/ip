@@ -76,6 +76,14 @@ public class Event extends Task {
         return event;
     }
 
+    public LocalDate getStart() {
+        return start;
+    }
+
+    public LocalDate getEnd() {
+        return end;
+    }
+
     @Override
     public char getBadge() {
         return 'E';
