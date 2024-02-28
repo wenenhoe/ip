@@ -63,6 +63,10 @@ public class Deadline extends Task {
         return deadline;
     }
 
+    public LocalDate getEnd() {
+        return end;
+    }
+
     @Override
     public char getBadge() {
         return 'D';

@@ -21,13 +21,9 @@ public class TaskManager {
         importTaskList();
     }
 
-    public void printTaskList() {
-        int taskNum = 1;
+    public void printAllTasks() {
         Console.printResponse("Here are the tasks in your list:");
-        for (Task task: taskList) {
-            Console.printResponse(taskNum + "." + task.toString());
-            taskNum++;
-        }
+        printTaskList(taskList);
     }
 
     public void addTask(TaskType taskType, magus.console.Parser parser) {
@@ -102,6 +98,24 @@ public class TaskManager {
         exportTaskList();
         Console.printResponse("OK, I've marked this task as not done yet:");
         Console.printResponse("  " + task);
+    }
+
+    public void findTasks(magus.console.Parser parser) {
+        TaskFinder taskFinder = new TaskFinder(taskList);
+        List<Task> filteredTaskList = taskFinder.filterTasks(parser);
+
+        if (filteredTaskList != null) {
+            Console.printResponse("Here are the matching tasks in your list:");
+            printTaskList(filteredTaskList);
+        }
+    }
+
+    private void printTaskList(List<Task> taskList) {
+        int taskNum = 1;
+        for (Task task: taskList) {
+            Console.printResponse(taskNum + "." + task.toString());
+            taskNum++;
+        }
     }
 
     private Task getTask(int taskNum) {

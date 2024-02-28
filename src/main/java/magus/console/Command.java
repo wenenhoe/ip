@@ -3,6 +3,7 @@ package magus.console;
 public enum Command {
     UNKNOWN,
     LIST,
+    FIND,
     BYE,
     MARK,
     UNMARK,
