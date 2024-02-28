@@ -78,4 +78,30 @@ What can I do for you?
 > 	Here are the matching tasks in your list:
 	1.[T][ ] Attempt tutorial 10
 -----------------------------------------------
+> TODO magus.exception.ArgumentNotFoundException: Missing description
+-----------------------------------------------
+> EVENT magus.exception.ArgumentNotFoundException: Missing /from argument in ""
+-----------------------------------------------
+> EVENT magus.exception.ArgumentNotFoundException: Missing info specified in /from
+-----------------------------------------------
+> EVENT magus.exception.ArgumentNotFoundException: Missing /to argument in "Workshop 3 /from 2024-03-18"
+-----------------------------------------------
+> EVENT magus.exception.ArgumentNotFoundException: Missing /from argument in "Workshop 3 /to 2024-03-20"
+-----------------------------------------------
+> EVENT java.time.format.DateTimeParseException: Text '20240320' could not be parsed at index 0
+-----------------------------------------------
+> 	Got it. I've added this task:
+		[E][ ] Workshop 3  (from: 2024-03-20 to: 2024-03-18)
+	Now you have 5 tasks in the list.
+-----------------------------------------------
+> DEADLINE magus.exception.ArgumentNotFoundException: Missing /by argument in ""
+-----------------------------------------------
+> DEADLINE magus.exception.ArgumentNotFoundException: Missing info specified in /by
+-----------------------------------------------
+> DEADLINE java.time.format.DateTimeParseException: Text '20240318' could not be parsed at index 0
+-----------------------------------------------
+> 	Got it. I've added this task:
+		[D][ ] Finish quiz 3 (by: 2024-03-18)
+	Now you have 6 tasks in the list.
+-----------------------------------------------
 > 	Bye. Hope to see you again soon!
