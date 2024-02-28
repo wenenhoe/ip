@@ -5,6 +5,7 @@ import magus.task.Task;
 import magus.task.storage.Parser;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Map;
 
 import static magus.task.storage.Parser.DELIMITER;
@@ -18,7 +19,7 @@ public class Deadline extends Task {
     }
 
     public static Deadline parseConsoleTaskInfo(magus.console.Parser parser)
-            throws ArgumentNotFoundException {
+            throws ArgumentNotFoundException, DateTimeParseException {
         String descriptionCommand = "";
         String byCommand = "/by";
         Map<String, String> parsedArgs = parser.parseAdditionalInput(

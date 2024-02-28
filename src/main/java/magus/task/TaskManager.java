@@ -7,6 +7,7 @@ import magus.task.variant.Deadline;
 import magus.task.variant.Event;
 import magus.task.variant.Todo;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,12 +43,16 @@ public class TaskManager {
                 task = Deadline.parseConsoleTaskInfo(parser);
             } catch (ArgumentNotFoundException e) {
                 Console.printError(taskType.toString(), e);
+            } catch (DateTimeParseException e) {
+                Console.printError(taskType.toString(), e);
             }
             break;
         case EVENT:
             try {
                 task = Event.parseConsoleTaskInfo(parser);
             } catch (ArgumentNotFoundException e) {
+                Console.printError(taskType.toString(), e);
+            } catch (DateTimeParseException e) {
                 Console.printError(taskType.toString(), e);
             }
             break;
