@@ -1,14 +1,20 @@
-hello world
-goodbye world
-todo read book
-deadline submit quiz
 list
-deadline submit quiz /by this Sunday
-event attend workshop /to Friday
+todo Attempt tutorial 10
+deadline Sign up for workshop /by 2024-03-10
+event Workshop 1 /from 2024-03-14 /to 2024-03-16
+todo Watch lecture recording
+event Workshop 2 /from 2024-03-14 /to 2024-03-18
 list
-event attend workshop /from Monday /to Friday
+mark 2
+unmark 1
+delete 4
 list
-mark 3
-unmark 2
-list
+find tutorial
+find /date 2024-03-14
+find deadline /by 2024-03-10
+find event /from 2024-03-14
+find event /to 2024-03-18
+find event /from 2024-03-14 /to 2024-03-16
+find todo lecture
+find todo tutorial
 bye

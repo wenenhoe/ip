@@ -8,53 +8,74 @@
 Hello I'm Magus
 What can I do for you?
 -----------------------------------------------
-> 	added: hello world
------------------------------------------------
-> 	added: goodbye world
+> 	Here are the tasks in your list:
 -----------------------------------------------
 > 	Got it. I've added this task:
-		[T][ ] read book
+		[T][ ] Attempt tutorial 10
+	Now you have 1 tasks in the list.
+-----------------------------------------------
+> 	Got it. I've added this task:
+		[D][ ] Sign up for workshop (by: 2024-03-10)
+	Now you have 2 tasks in the list.
+-----------------------------------------------
+> 	Got it. I've added this task:
+		[E][ ] Workshop 1  (from: 2024-03-14 to: 2024-03-16)
 	Now you have 3 tasks in the list.
 -----------------------------------------------
-> -----------------------------------------------
-> 	Here are the tasks in your list:
-	1.[ ] hello world
-	2.[ ] goodbye world
-	3.[T][ ] read book
------------------------------------------------
 > 	Got it. I've added this task:
-		[D][ ] submit quiz (by: this Sunday)
+		[T][ ] Watch lecture recording
 	Now you have 4 tasks in the list.
 -----------------------------------------------
-> -----------------------------------------------
-> 	Here are the tasks in your list:
-	1.[ ] hello world
-	2.[ ] goodbye world
-	3.[T][ ] read book
-	4.[D][ ] submit quiz (by: this Sunday)
------------------------------------------------
 > 	Got it. I've added this task:
-		[E][ ] attend workshop  (from: Monday to: Friday)
+		[E][ ] Workshop 2  (from: 2024-03-14 to: 2024-03-18)
 	Now you have 5 tasks in the list.
 -----------------------------------------------
 > 	Here are the tasks in your list:
-	1.[ ] hello world
-	2.[ ] goodbye world
-	3.[T][ ] read book
-	4.[D][ ] submit quiz (by: this Sunday)
-	5.[E][ ] attend workshop  (from: Monday to: Friday)
+	1.[T][ ] Attempt tutorial 10
+	2.[D][ ] Sign up for workshop (by: 2024-03-10)
+	3.[E][ ] Workshop 1  (from: 2024-03-14 to: 2024-03-16)
+	4.[T][ ] Watch lecture recording
+	5.[E][ ] Workshop 2  (from: 2024-03-14 to: 2024-03-18)
 -----------------------------------------------
 > 	Nice! I've marked this task as done:
-	  [T][X] read book
+	  [D][X] Sign up for workshop (by: 2024-03-10)
 -----------------------------------------------
 > 	OK, I've marked this task as not done yet:
-	  [ ] goodbye world
+	  [T][ ] Attempt tutorial 10
+-----------------------------------------------
+> 	Noted. I've removed this task:
+		[T][ ] Watch lecture recording
+	Now you have 4 tasks in the list.
 -----------------------------------------------
 > 	Here are the tasks in your list:
-	1.[ ] hello world
-	2.[ ] goodbye world
-	3.[T][X] read book
-	4.[D][ ] submit quiz (by: this Sunday)
-	5.[E][ ] attend workshop  (from: Monday to: Friday)
+	1.[T][ ] Attempt tutorial 10
+	2.[D][X] Sign up for workshop (by: 2024-03-10)
+	3.[E][ ] Workshop 1  (from: 2024-03-14 to: 2024-03-16)
+	4.[E][ ] Workshop 2  (from: 2024-03-14 to: 2024-03-18)
+-----------------------------------------------
+> 	Here are the matching tasks in your list:
+	1.[T][ ] Attempt tutorial 10
+-----------------------------------------------
+> 	Here are the matching tasks in your list:
+	1.[E][ ] Workshop 1  (from: 2024-03-14 to: 2024-03-16)
+	2.[E][ ] Workshop 2  (from: 2024-03-14 to: 2024-03-18)
+-----------------------------------------------
+> 	Here are the matching tasks in your list:
+	1.[D][X] Sign up for workshop (by: 2024-03-10)
+-----------------------------------------------
+> 	Here are the matching tasks in your list:
+	1.[E][ ] Workshop 1  (from: 2024-03-14 to: 2024-03-16)
+	2.[E][ ] Workshop 2  (from: 2024-03-14 to: 2024-03-18)
+-----------------------------------------------
+> 	Here are the matching tasks in your list:
+	1.[E][ ] Workshop 2  (from: 2024-03-14 to: 2024-03-18)
+-----------------------------------------------
+> 	Here are the matching tasks in your list:
+	1.[E][ ] Workshop 1  (from: 2024-03-14 to: 2024-03-16)
+-----------------------------------------------
+> 	Here are the matching tasks in your list:
+-----------------------------------------------
+> 	Here are the matching tasks in your list:
+	1.[T][ ] Attempt tutorial 10
 -----------------------------------------------
 > 	Bye. Hope to see you again soon!
