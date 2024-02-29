@@ -2,9 +2,17 @@ package magus.console;
 
 import java.util.Scanner;
 
+/**
+ * Handles getting user input from and printing out on the console
+ */
 public class Console {
     private static final Scanner SCANNER = new Scanner(System.in);
 
+    /**
+     * Prints a new separator and console prompt and gets user input
+     *
+     * @return User input from console
+     */
     public static String getUserInput() {
         String separator = "-----------------------------------------------";
         System.out.println(separator);
@@ -12,6 +20,9 @@ public class Console {
         return SCANNER.nextLine().strip();
     }
 
+    /**
+     * Prints welcome message on console
+     */
     public static void printWelcomeMessage() {
         String logo =
                 "  __  __               _____   _    _    _____ \n" +
@@ -25,15 +36,32 @@ public class Console {
         System.out.println("What can I do for you?");
     }
 
+    /**
+     * Prints response on console with a single tab
+     *
+     * @param response String to be printed on console
+     */
     public static void printResponse(String response) {
         int tabCount = 1;
         printResponse(response, tabCount);
     }
 
+    /**
+     * Prints response on console with variable number of tabs
+     *
+     * @param response String to be printed on console
+     * @param tabCount Number of tabs to be included before printing <code>response</code>
+     */
     public static void printResponse(String response, int tabCount) {
         System.out.println("\t".repeat(tabCount) + response);
     }
 
+    /**
+     * Prints warning on console
+     *
+     * @param message Warning message to be printed on console
+     * @param tabCount Number of tabs to be included before printing <code>message</code>
+     */
     public static void printWarning(String message, int tabCount) {
         String formattedString = String.format("**** %s ****", message);
         System.out.println("\t".repeat(tabCount) + formattedString);
@@ -43,6 +71,12 @@ public class Console {
         System.out.println(cause.toString());
     }
 
+    /**
+     * Prints error on console
+     *
+     * @param message Error message to be printed on console
+     * @param cause Cause of error, has to be of <code>Throwable</code> type
+     */
     public static void printError(String message, Throwable cause) {
         String exceptionName = cause.getClass().getName();
         String exceptionDetails = cause.getMessage();
