@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FileIo {
-    private static final String taskListFileName = "Magus.txt";
-    private static final String taskListFileDirectory = "./data/";
-    private static final String taskListFilePath = taskListFileDirectory + taskListFileName;
+    private static final String TASK_LIST_FILE_NAME = "Magus.txt";
+    private static final String TASK_LIST_FILE_DIRECTORY = "./data/";
+    private static final String TASK_LIST_FILE_PATH = TASK_LIST_FILE_DIRECTORY + TASK_LIST_FILE_NAME;
 
     public static List<String> readTaskListFile() {
         List<String> taskCommandStrings = new ArrayList<>();
-        File taskListFile = new File(taskListFilePath);
+        File taskListFile = new File(TASK_LIST_FILE_PATH);
 
         Scanner scanner;
         try {
@@ -38,7 +38,7 @@ public class FileIo {
     }
 
     public static void writeTaskListFile(List<String> taskCommandStrings) {
-        File taskListFile = new File(taskListFilePath);
+        File taskListFile = new File(TASK_LIST_FILE_PATH);
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
 
@@ -65,7 +65,7 @@ public class FileIo {
     }
 
     private static void createDataDirectory() throws IOException {
-        Path taskListDirectory = Paths.get(taskListFileDirectory);
+        Path taskListDirectory = Paths.get(TASK_LIST_FILE_DIRECTORY);
         Files.createDirectories(taskListDirectory);
     }
 }
