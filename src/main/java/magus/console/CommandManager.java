@@ -5,7 +5,19 @@ import magus.exception.UnknownArgumentException;
 import magus.task.TaskManager;
 import magus.task.TaskType;
 
+/**
+ * Manages the effects of each <code>Command</code>
+ * @see magus.console.Command
+ */
 public class CommandManager {
+    /**
+     * Takes the parsed user input and process the relevant command and additional inputs specified
+     *
+     * @param parser Console parser that parsed user input
+     * @param taskManager Task manager that interacts with all the different tasks
+     * @throws CommandNotFoundException Unknown command specified
+     * @throws UnknownArgumentException Unknown argument specified for command type
+     */
     public static void processInput(Parser parser, TaskManager taskManager)
             throws CommandNotFoundException, UnknownArgumentException {
         int taskNum;
