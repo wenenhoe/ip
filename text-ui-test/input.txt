@@ -5,8 +5,11 @@ event Workshop 1 /from 2024-03-14 /to 2024-03-16
 todo Watch lecture recording
 event Workshop 2 /from 2024-03-14 /to 2024-03-18
 list
+mark two
 mark 2
+unmark one
 unmark 1
+delete four
 delete 4
 list
 find tutorial
@@ -21,6 +24,8 @@ find todo lecture /until 2024-03-16
 find event /from 2024-03-14 /to 2024-03-16 /remarks urgent
 find deadline /by 2024-03-10 /urgent
 find deadline lecture /by 2024-03-10 /urgent
+hello world
+goodbye world
 todo
 todo hello /remarks world
 event

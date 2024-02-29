@@ -37,11 +37,17 @@ What can I do for you?
 	4.[T][ ] Watch lecture recording
 	5.[E][ ] Workshop 2  (from: 2024-03-14 to: 2024-03-18)
 -----------------------------------------------
+> MAGUS magus.exception.UnknownArgumentException: Unknown argument in "two"
+-----------------------------------------------
 > 	Nice! I've marked this task as done:
 	  [D][X] Sign up for workshop (by: 2024-03-10)
 -----------------------------------------------
+> MAGUS magus.exception.UnknownArgumentException: Unknown argument in "one"
+-----------------------------------------------
 > 	OK, I've marked this task as not done yet:
 	  [T][ ] Attempt tutorial 10
+-----------------------------------------------
+> MAGUS magus.exception.UnknownArgumentException: Unknown argument in "four"
 -----------------------------------------------
 > 	Noted. I've removed this task:
 		[T][ ] Watch lecture recording
@@ -85,6 +91,10 @@ What can I do for you?
 > FIND magus.exception.UnknownArgumentException: Unknown argument found in "/by 2024-03-10 /urgent"
 -----------------------------------------------
 > FIND magus.exception.UnknownArgumentException: Unknown argument found in "lecture /by 2024-03-10 /urgent"
+-----------------------------------------------
+> MAGUS magus.exception.CommandNotFoundException: Unknown command in "hello"
+-----------------------------------------------
+> MAGUS magus.exception.CommandNotFoundException: Unknown command in "goodbye"
 -----------------------------------------------
 > TODO magus.exception.ArgumentNotFoundException: Missing description
 -----------------------------------------------
