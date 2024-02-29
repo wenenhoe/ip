@@ -11,14 +11,33 @@ import java.util.Map;
 
 import static magus.task.storage.Parser.DELIMITER;
 
+/**
+ * Task variant Deadline that stores a description and the end date
+ */
 public class Deadline extends Task {
     private final LocalDate end;
 
+    /**
+     * Constructor for task variant Deadline
+     *
+     * @param description Describe the deadline
+     * @param end End date for task deadline
+     */
     public Deadline(String description, LocalDate end) {
         super(description);
         this.end = end;
     }
 
+    /**
+     * Parses the console input to construct Deadline
+     *
+     * @param parser Console parser that parsed user input
+     * @return Deadline object constructed from a console input
+     * @throws ArgumentNotFoundException <code>/by</code> argument not found
+     * @throws DateTimeParseException Invalid date specified with <code>/by</code> argument
+     * @throws UnknownArgumentException Unknown argument <code>/?</code> specified
+     * @see magus.console.Parser
+     */
     public static Deadline parseConsoleTaskInfo(Parser parser)
             throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
         String descriptionCommand = "";
@@ -32,6 +51,14 @@ public class Deadline extends Task {
         return new Deadline(description, end);
     }
 
+    /**
+     * Parses the stored input to construct Deadline
+     *
+     * @param taskInfoSplit String array of each component to reconstruct Deadline
+     * @param isDone Whether Deadline is marked as done
+     * @return Deadline object restored from a stored string
+     * @see #toStoredString()
+     */
     public static Deadline parseStoredTaskInfo(String[] taskInfoSplit, boolean isDone) {
         if (taskInfoSplit.length != 2) {
             return null;
