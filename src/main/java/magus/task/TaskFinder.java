@@ -3,6 +3,7 @@ package magus.task;
 import magus.console.Console;
 import magus.console.Parser;
 import magus.exception.ArgumentNotFoundException;
+import magus.exception.UnknownArgumentException;
 import magus.task.variant.Deadline;
 import magus.task.variant.Event;
 import magus.task.variant.Todo;
@@ -35,6 +36,9 @@ public class TaskFinder {
             } catch (ArgumentNotFoundException ignored) {
                 // break out and try filter by description
                 break;
+            } catch (UnknownArgumentException e) {
+                Console.printError("FIND", e);
+                return filteredTaskList;
             }
             break;
         case DEADLINE:
@@ -43,7 +47,7 @@ public class TaskFinder {
             } catch (ArgumentNotFoundException ignored) {
                 // break out and try filter by description
                 break;
-            } catch (DateTimeParseException e) {
+            } catch (DateTimeParseException | UnknownArgumentException e) {
                 Console.printError("FIND", e);
                 return filteredTaskList;
             }
@@ -62,7 +66,7 @@ public class TaskFinder {
             } catch (ArgumentNotFoundException e) {
                 // break out and try filter by description
                 break;
-            } catch (DateTimeParseException e) {
+            } catch (DateTimeParseException | UnknownArgumentException e) {
                 Console.printError("FIND", e);
                 return filteredTaskList;
             }
@@ -70,20 +74,23 @@ public class TaskFinder {
         }
 
         if (filteredTaskList == null) {
-            filteredTaskList = filterTasksByDescription(parser, subparser, taskType);
+            try {
+                filteredTaskList = filterTasksByDescription(parser, subparser, taskType);
+            } catch (UnknownArgumentException e) {
+                Console.printError("FIND", e);
+                return filteredTaskList;
+            } catch (ArgumentNotFoundException e) {
+                return new ArrayList<>();
+            }
         }
 
         return filteredTaskList;
     }
 
-    private List<Task> filterTasksByDescription(Parser parser, Parser subparser, TaskType taskType) {
-        String searchString, taskSpecificSearchString;
-        try {
-            searchString = parser.parseAdditionalInput(true).get(""); // non-keyword arg
-        } catch (ArgumentNotFoundException e) {
-            return new ArrayList<>();
-        }
-        taskSpecificSearchString = subparser.getAdditionalInput();
+    private List<Task> filterTasksByDescription(Parser parser, Parser subparser, TaskType taskType)
+            throws UnknownArgumentException, ArgumentNotFoundException {
+        String searchString = parser.parseAdditionalInput(true).get(""); // non-keyword arg
+        String taskSpecificSearchString = subparser.getAdditionalInput();
 
         Stream<Task> taskStream = taskList.stream();
         switch (taskType) {
@@ -107,7 +114,7 @@ public class TaskFinder {
     }
 
     private List<Task> filterTasksByDate(Parser parser)
-            throws ArgumentNotFoundException, DateTimeParseException {
+            throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
         String dateCommand = "/date";
         Map<String, String> parsedArgs = parser.parseAdditionalInput(false, dateCommand);
 
@@ -123,7 +130,8 @@ public class TaskFinder {
                 .collect(Collectors.toList());
     }
 
-    private List<Task> filterTodos(Parser parser) throws ArgumentNotFoundException {
+    private List<Task> filterTodos(Parser parser)
+            throws ArgumentNotFoundException, UnknownArgumentException {
         Map<String, String> parsedArgs = parser.parseAdditionalInput(true);
         String searchString = parsedArgs.get(""); // non-keyword arg
         return taskList.stream()
@@ -133,7 +141,7 @@ public class TaskFinder {
     }
 
     private List<Task> filterDeadlines(Parser parser)
-            throws ArgumentNotFoundException, DateTimeParseException {
+            throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
         String byCommand = "/by";
         Map<String, String> parsedArgs = parser.parseAdditionalInput(false, byCommand);
 
@@ -151,24 +159,24 @@ public class TaskFinder {
 
         try {
             return filterEventsByStartAndEnd(parser);
-        } catch (ArgumentNotFoundException e) {
+        } catch (ArgumentNotFoundException | UnknownArgumentException e) {
             // continue the next filter type
         }
         try {
             return filterEventsByStart(parser);
-        } catch (ArgumentNotFoundException e) {
+        } catch (ArgumentNotFoundException | UnknownArgumentException e) {
             // continue the next filter type
         }
         try {
             return filterEventsByEnd(parser);
-        } catch (ArgumentNotFoundException e) {
-            // unknown combination of args
+        } catch (ArgumentNotFoundException | UnknownArgumentException e) {
+            // unknown (combination) of args
             return null;
         }
     }
 
     private List<Task> filterEventsByStartAndEnd(Parser parser)
-            throws ArgumentNotFoundException, DateTimeParseException {
+            throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
         String fromCommand = "/from";
         String toCommand = "/to";
 
@@ -185,7 +193,7 @@ public class TaskFinder {
     }
 
     private List<Task> filterEventsByStart(Parser parser)
-            throws ArgumentNotFoundException, DateTimeParseException {
+            throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
         String fromCommand = "/from";
         Map<String, String> parsedArgs = parser.parseAdditionalInput(false, fromCommand);
         String searchStartDateString = parsedArgs.get(fromCommand);
@@ -197,7 +205,7 @@ public class TaskFinder {
     }
 
     private List<Task> filterEventsByEnd(Parser parser)
-            throws ArgumentNotFoundException, DateTimeParseException {
+            throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
         String toCommand = "/to";
         Map<String, String> parsedArgs = parser.parseAdditionalInput(false, toCommand);
         String searchEndDateString = parsedArgs.get(toCommand);

@@ -1,6 +1,7 @@
 package magus.task.variant;
 
 import magus.exception.ArgumentNotFoundException;
+import magus.exception.UnknownArgumentException;
 import magus.task.Task;
 import magus.task.storage.Parser;
 
@@ -19,7 +20,7 @@ public class Deadline extends Task {
     }
 
     public static Deadline parseConsoleTaskInfo(magus.console.Parser parser)
-            throws ArgumentNotFoundException, DateTimeParseException {
+            throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
         String descriptionCommand = "";
         String byCommand = "/by";
         Map<String, String> parsedArgs = parser.parseAdditionalInput(

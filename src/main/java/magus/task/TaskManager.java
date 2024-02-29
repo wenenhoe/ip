@@ -2,6 +2,7 @@ package magus.task;
 
 import magus.console.Console;
 import magus.exception.ArgumentNotFoundException;
+import magus.exception.UnknownArgumentException;
 import magus.task.storage.Parser;
 import magus.task.variant.Deadline;
 import magus.task.variant.Event;
@@ -34,25 +35,21 @@ public class TaskManager {
         case TODO:
             try {
                 task = Todo.parseConsoleTaskInfo(parser);
-            } catch (ArgumentNotFoundException e) {
+            } catch (ArgumentNotFoundException | UnknownArgumentException e) {
                 Console.printError(taskType.toString(), e);
             }
             break;
         case DEADLINE:
             try {
                 task = Deadline.parseConsoleTaskInfo(parser);
-            } catch (ArgumentNotFoundException e) {
-                Console.printError(taskType.toString(), e);
-            } catch (DateTimeParseException e) {
+            } catch (ArgumentNotFoundException | DateTimeParseException | UnknownArgumentException e) {
                 Console.printError(taskType.toString(), e);
             }
             break;
         case EVENT:
             try {
                 task = Event.parseConsoleTaskInfo(parser);
-            } catch (ArgumentNotFoundException e) {
-                Console.printError(taskType.toString(), e);
-            } catch (DateTimeParseException e) {
+            } catch (ArgumentNotFoundException | DateTimeParseException | UnknownArgumentException e) {
                 Console.printError(taskType.toString(), e);
             }
             break;

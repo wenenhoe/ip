@@ -1,6 +1,7 @@
 package magus.task.variant;
 
 import magus.exception.ArgumentNotFoundException;
+import magus.exception.UnknownArgumentException;
 import magus.task.Task;
 import magus.task.storage.Parser;
 
@@ -21,7 +22,7 @@ public class Event extends Task {
     }
 
     public static Event parseConsoleTaskInfo(magus.console.Parser parser)
-            throws ArgumentNotFoundException, DateTimeParseException {
+            throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
         String descriptionCommand = "";
         String fromCommand = "/from";
         String toCommand = "/to";
