@@ -8,6 +8,9 @@ import magus.exception.CommandNotFoundException;
 import magus.exception.UnknownArgumentException;
 import magus.task.TaskManager;
 
+/**
+ * Chatbot and task manager, all-in-one program
+ */
 public class Magus {
     public static void main(String[] args) {
         TaskManager taskManager = new TaskManager();
