@@ -78,7 +78,17 @@ What can I do for you?
 > 	Here are the matching tasks in your list:
 	1.[T][ ] Attempt tutorial 10
 -----------------------------------------------
+> FIND magus.exception.UnknownArgumentException: Unknown argument found in "lecture /until 2024-03-16"
+-----------------------------------------------
+> FIND magus.exception.UnknownArgumentException: Unknown argument found in "event /from 2024-03-14 /to 2024-03-16 /remarks urgent"
+-----------------------------------------------
+> FIND magus.exception.UnknownArgumentException: Unknown argument found in "/by 2024-03-10 /urgent"
+-----------------------------------------------
+> FIND magus.exception.UnknownArgumentException: Unknown argument found in "lecture /by 2024-03-10 /urgent"
+-----------------------------------------------
 > TODO magus.exception.ArgumentNotFoundException: Missing description
+-----------------------------------------------
+> TODO magus.exception.UnknownArgumentException: Unknown argument found in "hello /remarks world"
 -----------------------------------------------
 > EVENT magus.exception.ArgumentNotFoundException: Missing /from argument in ""
 -----------------------------------------------
@@ -90,6 +100,8 @@ What can I do for you?
 -----------------------------------------------
 > EVENT java.time.format.DateTimeParseException: Text '20240320' could not be parsed at index 0
 -----------------------------------------------
+> EVENT magus.exception.UnknownArgumentException: Unknown argument found in "Workshop 3 /to 2024-03-18 /from 2024-03-20 /remarks urgent"
+-----------------------------------------------
 > 	Got it. I've added this task:
 		[E][ ] Workshop 3  (from: 2024-03-20 to: 2024-03-18)
 	Now you have 5 tasks in the list.
@@ -99,6 +111,8 @@ What can I do for you?
 > DEADLINE magus.exception.ArgumentNotFoundException: Missing info specified in /by
 -----------------------------------------------
 > DEADLINE java.time.format.DateTimeParseException: Text '20240318' could not be parsed at index 0
+-----------------------------------------------
+> DEADLINE magus.exception.UnknownArgumentException: Unknown argument found in "Finish quiz 3 /from 2024-03-11 /by 2024-03-18"
 -----------------------------------------------
 > 	Got it. I've added this task:
 		[D][ ] Finish quiz 3 (by: 2024-03-18)

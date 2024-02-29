@@ -17,15 +17,22 @@ find event /to 2024-03-18
 find event /from 2024-03-14 /to 2024-03-16
 find todo lecture
 find todo tutorial
+find todo lecture /until 2024-03-16
+find event /from 2024-03-14 /to 2024-03-16 /remarks urgent
+find deadline /by 2024-03-10 /urgent
+find deadline lecture /by 2024-03-10 /urgent
 todo
+todo hello /remarks world
 event
 event Workshop 3 /from /to
 event Workshop 3 /from 2024-03-18
 event Workshop 3 /to 2024-03-20
 event Workshop 3 /to 20240318 /from 20240320
+event Workshop 3 /to 2024-03-18 /from 2024-03-20 /remarks urgent
 event Workshop 3 /to 2024-03-18 /from 2024-03-20
 deadline
 deadline Finish quiz 3 /by
 deadline Finish quiz 3 /by 20240318
+deadline Finish quiz 3 /from 2024-03-11 /by 2024-03-18
 deadline Finish quiz 3 /by 2024-03-18
 bye
