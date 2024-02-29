@@ -1,7 +1,5 @@
 package magus.task;
 
-import magus.console.Command;
-
 public enum TaskType {
     UNKNOWN,
     TODO,
