@@ -1,6 +1,7 @@
 package magus.task.variant;
 
 import magus.exception.ArgumentNotFoundException;
+import magus.exception.UnknownArgumentException;
 import magus.task.Task;
 import magus.task.storage.Parser;
 
@@ -14,7 +15,7 @@ public class Todo extends Task {
     }
 
     public static Todo parseConsoleTaskInfo(magus.console.Parser parser)
-            throws ArgumentNotFoundException {
+            throws ArgumentNotFoundException, UnknownArgumentException {
         String descriptionCommand = "";
         Map<String, String> parsedArgs = parser.parseAdditionalInput(true);
         String description = parsedArgs.get(descriptionCommand);

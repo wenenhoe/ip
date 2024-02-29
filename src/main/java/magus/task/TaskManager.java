@@ -2,11 +2,13 @@ package magus.task;
 
 import magus.console.Console;
 import magus.exception.ArgumentNotFoundException;
+import magus.exception.UnknownArgumentException;
 import magus.task.storage.Parser;
 import magus.task.variant.Deadline;
 import magus.task.variant.Event;
 import magus.task.variant.Todo;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,21 +35,21 @@ public class TaskManager {
         case TODO:
             try {
                 task = Todo.parseConsoleTaskInfo(parser);
-            } catch (ArgumentNotFoundException e) {
+            } catch (ArgumentNotFoundException | UnknownArgumentException e) {
                 Console.printError(taskType.toString(), e);
             }
             break;
         case DEADLINE:
             try {
                 task = Deadline.parseConsoleTaskInfo(parser);
-            } catch (ArgumentNotFoundException e) {
+            } catch (ArgumentNotFoundException | DateTimeParseException | UnknownArgumentException e) {
                 Console.printError(taskType.toString(), e);
             }
             break;
         case EVENT:
             try {
                 task = Event.parseConsoleTaskInfo(parser);
-            } catch (ArgumentNotFoundException e) {
+            } catch (ArgumentNotFoundException | DateTimeParseException | UnknownArgumentException e) {
                 Console.printError(taskType.toString(), e);
             }
             break;
@@ -63,12 +65,8 @@ public class TaskManager {
         Console.printResponse("Now you have " + taskList.size() + " tasks in the list.");
     }
 
-    public void deleteTask(int taskNum) {
+    public void deleteTask(int taskNum) throws IndexOutOfBoundsException {
         Task task = getTask(taskNum);
-        if (task == null) {
-            return;
-        }
-
         taskList.remove(task);
         exportTaskList();
         Console.printResponse("Noted. I've removed this task:");
@@ -76,24 +74,16 @@ public class TaskManager {
         Console.printResponse("Now you have " + taskList.size() + " tasks in the list.");
     }
 
-    public void markTaskAsDone(int taskNum) {
+    public void markTaskAsDone(int taskNum) throws IndexOutOfBoundsException {
         Task task = getTask(taskNum);
-        if (task == null) {
-            return;
-        }
-
         task.markAsDone();
         exportTaskList();
         Console.printResponse("Nice! I've marked this task as done:");
         Console.printResponse("  " + task);
     }
 
-    public void unmarkTaskAsDone(int taskNum) {
+    public void unmarkTaskAsDone(int taskNum) throws IndexOutOfBoundsException {
         Task task = getTask(taskNum);
-        if (task == null) {
-            return;
-        }
-
         task.unmarkAsDone();
         exportTaskList();
         Console.printResponse("OK, I've marked this task as not done yet:");
@@ -118,14 +108,9 @@ public class TaskManager {
         }
     }
 
-    private Task getTask(int taskNum) {
+    private Task getTask(int taskNum) throws IndexOutOfBoundsException {
         taskNum--; // Decrement to utilise as list index
-
-        try {
-            return taskList.get(taskNum);
-        } catch (IndexOutOfBoundsException ok) {
-            return null; // Outside range of task list
-        }
+        return taskList.get(taskNum);
     }
 
     private void importTaskList() {

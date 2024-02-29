@@ -1,6 +1,7 @@
 package magus.console;
 
 import magus.exception.ArgumentNotFoundException;
+import magus.exception.UnknownArgumentException;
 import magus.util.Pair;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class Parser {
     private final String commandCandidate;
@@ -59,9 +61,14 @@ public class Parser {
         return additionalInput;
     }
 
-    public Map<String, String> parseAdditionalInput(
-            boolean isIncludeFirstParam,
-            String ... keywordArgs) throws ArgumentNotFoundException {
+    public Map<String, String> parseAdditionalInput(boolean isIncludeFirstParam, String ... keywordArgs)
+            throws ArgumentNotFoundException, UnknownArgumentException {
+        boolean hasUnknownArgs = hasUnknownArgument(keywordArgs);
+        if (hasUnknownArgs) {
+            String errorContext = String.format("Unknown argument found in \"%s\"", additionalInput);
+            throw new UnknownArgumentException(errorContext);
+        }
+
         if (keywordArgs.length == 0) {
             Map<String, String> args = new HashMap<>();
             if (isIncludeFirstParam) {
@@ -83,6 +90,16 @@ public class Parser {
         } catch (NumberFormatException e) {
             return 0;
         }
+    }
+
+    private boolean hasUnknownArgument(String[] keywordArgs) {
+        String pattern = "^/.+$";
+        List<String> keywordArgsList = List.of(keywordArgs);
+        List<String> unknownArgsList = additionalInputList.stream()
+                .filter((input) -> input.matches(pattern)
+                        && !keywordArgsList.contains(input))
+                .collect(Collectors.toList());
+        return !unknownArgsList.isEmpty();
     }
 
     private SortedMap<Integer, String> getArgIndexes(String[] keywordArgs) throws ArgumentNotFoundException {
@@ -121,6 +138,7 @@ public class Parser {
 
         for (Map.Entry<Integer, String> index: indexes.entrySet()) {
             if (endIndex == -1) {
+                endIndex = startIndex; // allow next iteration to set endIndex
                 continue;
             }
 
