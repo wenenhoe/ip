@@ -1,9 +1,9 @@
 package magus.task.variant;
 
+import magus.console.Parser;
 import magus.exception.ArgumentNotFoundException;
 import magus.exception.UnknownArgumentException;
 import magus.task.Task;
-import magus.task.storage.Parser;
 
 import java.util.Map;
 
@@ -14,32 +14,23 @@ public class Todo extends Task {
         super(description);
     }
 
-    public static Todo parseConsoleTaskInfo(magus.console.Parser parser)
+    public static Todo parseConsoleTaskInfo(Parser parser)
             throws ArgumentNotFoundException, UnknownArgumentException {
         String descriptionCommand = "";
         Map<String, String> parsedArgs = parser.parseAdditionalInput(true);
-        String description = parsedArgs.get(descriptionCommand);
-        boolean hasNoDescription = description.isEmpty();
-        if (hasNoDescription) {
-            String errorContext = "Missing description";
-            throw new ArgumentNotFoundException(errorContext);
-        }
+        String description = Parser.getParsedArgsValue(parsedArgs, descriptionCommand, "description");
         return new Todo(description);
     }
 
-    public static Todo parseStoredTaskInfo(Parser parser) {
-        String description = parser.getTaskInfo();
+    public static Todo parseStoredTaskInfo(String description, boolean isDone) {
         boolean hasNoDescription = description.isEmpty();
         if (hasNoDescription) {
             return null;
         }
-        Todo todo = new Todo(description);
 
-        boolean isDone = parser.isDone();
+        Todo todo = new Todo(description);
         if (isDone) {
             todo.markAsDone();
-        } else {
-            todo.unmarkAsDone();
         }
         return todo;
     }

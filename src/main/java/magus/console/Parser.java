@@ -92,6 +92,20 @@ public class Parser {
         }
     }
 
+    public static String getParsedArgsValue(Map<String, String> parsedArgs, String arg, String ... argNames)
+            throws ArgumentNotFoundException {
+        String argValue = parsedArgs.get(arg);
+        String argName = arg;
+        if (argValue.isEmpty()) {
+            if (argNames.length != 0) {
+                argName = argNames[0];
+            }
+            String errorContext = String.format("Missing info specified in %s", argName);
+            throw new ArgumentNotFoundException(errorContext);
+        }
+        return argValue;
+    }
+
     private boolean hasUnknownArgument(String[] keywordArgs) {
         String pattern = "^/.+$";
         List<String> keywordArgsList = List.of(keywordArgs);

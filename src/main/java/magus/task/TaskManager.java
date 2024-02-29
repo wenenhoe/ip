@@ -120,15 +120,18 @@ public class TaskManager {
             TaskType taskType = parser.getTaskType();
 
             Task task = null;
+            String[] taskInfoSplit = parser.getSplitTaskInfo();
+            boolean isDone = parser.isDone();
             switch (taskType) {
             case TODO:
-                task = Todo.parseStoredTaskInfo(parser);
+                String description = parser.getTaskInfo();
+                task = Todo.parseStoredTaskInfo(description, isDone);
                 break;
             case DEADLINE:
-                task = Deadline.parseStoredTaskInfo(parser);
+                task = Deadline.parseStoredTaskInfo(taskInfoSplit, isDone);
                 break;
             case EVENT:
-                task = Event.parseStoredTaskInfo(parser);
+                task = Event.parseStoredTaskInfo(taskInfoSplit, isDone);
                 break;
             }
 

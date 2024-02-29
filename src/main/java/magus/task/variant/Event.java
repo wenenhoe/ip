@@ -1,9 +1,9 @@
 package magus.task.variant;
 
+import magus.console.Parser;
 import magus.exception.ArgumentNotFoundException;
 import magus.exception.UnknownArgumentException;
 import magus.task.Task;
-import magus.task.storage.Parser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -21,41 +21,23 @@ public class Event extends Task {
         this.end = end;
     }
 
-    public static Event parseConsoleTaskInfo(magus.console.Parser parser)
+    public static Event parseConsoleTaskInfo(Parser parser)
             throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
         String descriptionCommand = "";
         String fromCommand = "/from";
         String toCommand = "/to";
-        Map<String, String> parsedArgs = parser.parseAdditionalInput(
-                true,
-                fromCommand,
-                toCommand);
+        Map<String, String> parsedArgs = parser.parseAdditionalInput(true, fromCommand, toCommand);
 
-        String description = parsedArgs.get(descriptionCommand);
-        if (description.isEmpty()) {
-            String errorContext = "Missing description";
-            throw new ArgumentNotFoundException(errorContext);
-        }
-
-        String startString = parsedArgs.get(fromCommand);
-        if (startString.isEmpty()) {
-            String errorContext = String.format("Missing info specified in %s", fromCommand);
-            throw new ArgumentNotFoundException(errorContext);
-        }
+        String description = Parser.getParsedArgsValue(parsedArgs, descriptionCommand, "description");
+        String startString = Parser.getParsedArgsValue(parsedArgs, fromCommand);
         LocalDate start = LocalDate.parse(startString);
-
-        String endString = parsedArgs.get(toCommand);
-        if (endString.isEmpty()) {
-            String errorContext = String.format("Missing info specified in %s", toCommand);
-            throw new ArgumentNotFoundException(errorContext);
-        }
+        String endString = Parser.getParsedArgsValue(parsedArgs, toCommand);
         LocalDate end = LocalDate.parse(endString);
 
         return new Event(description, start, end);
     }
 
-    public static Event parseStoredTaskInfo(Parser parser) {
-        String[] taskInfoSplit = parser.getSplitTaskInfo();
+    public static Event parseStoredTaskInfo(String[] taskInfoSplit, boolean isDone) {
         if (taskInfoSplit.length != 3) {
             return null;
         }
@@ -67,13 +49,9 @@ public class Event extends Task {
         LocalDate end = LocalDate.parse(endString);
         Event event = new Event(description, start, end);
 
-        boolean isDone = parser.isDone();
         if (isDone) {
             event.markAsDone();
-        } else {
-            event.unmarkAsDone();
         }
-
         return event;
     }
 

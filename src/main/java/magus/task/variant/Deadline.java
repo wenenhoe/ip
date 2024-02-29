@@ -1,9 +1,9 @@
 package magus.task.variant;
 
+import magus.console.Parser;
 import magus.exception.ArgumentNotFoundException;
 import magus.exception.UnknownArgumentException;
 import magus.task.Task;
-import magus.task.storage.Parser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -19,32 +19,20 @@ public class Deadline extends Task {
         this.end = end;
     }
 
-    public static Deadline parseConsoleTaskInfo(magus.console.Parser parser)
+    public static Deadline parseConsoleTaskInfo(Parser parser)
             throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
         String descriptionCommand = "";
         String byCommand = "/by";
-        Map<String, String> parsedArgs = parser.parseAdditionalInput(
-                true,
-                byCommand);
+        Map<String, String> parsedArgs = parser.parseAdditionalInput(true, byCommand);
 
-        String description = parsedArgs.get(descriptionCommand);
-        if (description.isEmpty()) {
-            String errorContext = "Missing description";
-            throw new ArgumentNotFoundException(errorContext);
-        }
-
-        String endString = parsedArgs.get(byCommand);
-        if (endString.isEmpty()) {
-            String errorContext = String.format("Missing info specified in %s", byCommand);
-            throw new ArgumentNotFoundException(errorContext);
-        }
+        String description = Parser.getParsedArgsValue(parsedArgs, descriptionCommand, "description");
+        String endString = Parser.getParsedArgsValue(parsedArgs, byCommand);
         LocalDate end = LocalDate.parse(endString);
 
         return new Deadline(description, end);
     }
 
-    public static Deadline parseStoredTaskInfo(Parser parser) {
-        String[] taskInfoSplit = parser.getSplitTaskInfo();
+    public static Deadline parseStoredTaskInfo(String[] taskInfoSplit, boolean isDone) {
         if (taskInfoSplit.length != 2) {
             return null;
         }
@@ -54,13 +42,9 @@ public class Deadline extends Task {
         LocalDate end = LocalDate.parse(endString);
         Deadline deadline = new Deadline(description, end);
 
-        boolean isDone = parser.isDone();
         if (isDone) {
             deadline.markAsDone();
-        } else {
-            deadline.unmarkAsDone();
         }
-
         return deadline;
     }
 
