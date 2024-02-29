@@ -67,10 +67,6 @@ public class Console {
         System.out.println("\t".repeat(tabCount) + formattedString);
     }
 
-    public static void printError(Throwable cause) {
-        System.out.println(cause.toString());
-    }
-
     /**
      * Prints error on console
      *
