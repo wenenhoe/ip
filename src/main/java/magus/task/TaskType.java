@@ -1,6 +1,9 @@
 package magus.task;
 
+import magus.console.Command;
+
 public enum TaskType {
+    UNKNOWN,
     TODO,
     DEADLINE,
     EVENT;
@@ -15,6 +18,14 @@ public enum TaskType {
             return TaskType.TODO;
         default:
             throw new IllegalStateException("Unexpected value: " + badge);
+        }
+    }
+
+    public static TaskType getEnum(String name) {
+        try {
+            return TaskType.valueOf(name.toUpperCase());
+        } catch (IllegalArgumentException ok) {
+            return TaskType.UNKNOWN;
         }
     }
 }

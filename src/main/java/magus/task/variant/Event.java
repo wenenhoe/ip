@@ -1,49 +1,55 @@
 package magus.task.variant;
 
 import magus.exception.ArgumentNotFoundException;
+import magus.exception.UnknownArgumentException;
 import magus.task.Task;
 import magus.task.storage.Parser;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.Map;
 
 import static magus.task.storage.Parser.DELIMITER;
 
 public class Event extends Task {
-    private final String start;
-    private final String end;
+    private final LocalDate start;
+    private final LocalDate end;
 
-    public Event(String description, String start, String end) {
+    public Event(String description, LocalDate start, LocalDate end) {
         super(description);
         this.start = start;
         this.end = end;
     }
 
-    public static Event parse(String taskInfo) throws ArgumentNotFoundException {
-        String commandFromArg = "/from";
-        String commandToArg = "/to";
+    public static Event parseConsoleTaskInfo(magus.console.Parser parser)
+            throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
+        String descriptionCommand = "";
+        String fromCommand = "/from";
+        String toCommand = "/to";
+        Map<String, String> parsedArgs = parser.parseAdditionalInput(
+                true,
+                fromCommand,
+                toCommand);
 
-        List<String> infoList = List.of(taskInfo.split(" "));
-        int commandFromIndex = infoList.indexOf(commandFromArg);
-        if (commandFromIndex == -1) {
-            // Unable to find the arg /from
-            String errorContext = String.format("Missing /from argument in \"%s\"", taskInfo);
+        String description = parsedArgs.get(descriptionCommand);
+        if (description.isEmpty()) {
+            String errorContext = "Missing description";
             throw new ArgumentNotFoundException(errorContext);
         }
-        int commandToIndex = infoList.indexOf(commandToArg);
-        if (commandToIndex == -1) {
-            // Unable to find the arg /to
-            String errorContext = String.format("Missing /to argument in \"%s\"", taskInfo);
+
+        String startString = parsedArgs.get(fromCommand);
+        if (startString.isEmpty()) {
+            String errorContext = String.format("Missing info specified in %s", fromCommand);
             throw new ArgumentNotFoundException(errorContext);
         }
+        LocalDate start = LocalDate.parse(startString);
 
-        List<String> descriptionList = infoList.subList(0, commandFromIndex);
-        String description = String.join(" ", descriptionList);
-
-        List<String> startList = infoList.subList(commandFromIndex + 1, commandToIndex);
-        String start = String.join(" ", startList);
-
-        List<String> endList = infoList.subList(commandToIndex + 1, infoList.size());
-        String end = String.join(" ", endList);
+        String endString = parsedArgs.get(toCommand);
+        if (endString.isEmpty()) {
+            String errorContext = String.format("Missing info specified in %s", toCommand);
+            throw new ArgumentNotFoundException(errorContext);
+        }
+        LocalDate end = LocalDate.parse(endString);
 
         return new Event(description, start, end);
     }
@@ -56,8 +62,10 @@ public class Event extends Task {
         }
 
         String description = taskInfoSplit[0];
-        String start = taskInfoSplit[1];
-        String end = taskInfoSplit[2];
+        String startString = taskInfoSplit[1];
+        LocalDate start = LocalDate.parse(startString);
+        String endString = taskInfoSplit[2];
+        LocalDate end = LocalDate.parse(endString);
         Event event = new Event(description, start, end);
 
         boolean isDone = parser.isDone();
@@ -68,6 +76,14 @@ public class Event extends Task {
         }
 
         return event;
+    }
+
+    public LocalDate getStart() {
+        return start;
+    }
+
+    public LocalDate getEnd() {
+        return end;
     }
 
     @Override

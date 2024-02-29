@@ -2,11 +2,13 @@ package magus.task;
 
 import magus.console.Console;
 import magus.exception.ArgumentNotFoundException;
+import magus.exception.UnknownArgumentException;
 import magus.task.storage.Parser;
 import magus.task.variant.Deadline;
 import magus.task.variant.Event;
 import magus.task.variant.Todo;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,37 +23,33 @@ public class TaskManager {
         importTaskList();
     }
 
-    public void printTaskList() {
-        int taskNum = 1;
+    public void printAllTasks() {
         Console.printResponse("Here are the tasks in your list:");
-        for (Task task: taskList) {
-            Console.printResponse(taskNum + "." + task.toString());
-            taskNum++;
-        }
+        printTaskList(taskList);
     }
 
-    public void addTask(TaskType taskType, String taskInfo) {
+    public void addTask(TaskType taskType, magus.console.Parser parser) {
         Task task = null;
 
         switch (taskType) {
         case TODO:
             try {
-                task = Todo.parse(taskInfo);
-            } catch (ArgumentNotFoundException e) {
+                task = Todo.parseConsoleTaskInfo(parser);
+            } catch (ArgumentNotFoundException | UnknownArgumentException e) {
                 Console.printError(taskType.toString(), e);
             }
             break;
         case DEADLINE:
             try {
-                task = Deadline.parse(taskInfo);
-            } catch (ArgumentNotFoundException e) {
+                task = Deadline.parseConsoleTaskInfo(parser);
+            } catch (ArgumentNotFoundException | DateTimeParseException | UnknownArgumentException e) {
                 Console.printError(taskType.toString(), e);
             }
             break;
         case EVENT:
             try {
-                task = Event.parse(taskInfo);
-            } catch (ArgumentNotFoundException e) {
+                task = Event.parseConsoleTaskInfo(parser);
+            } catch (ArgumentNotFoundException | DateTimeParseException | UnknownArgumentException e) {
                 Console.printError(taskType.toString(), e);
             }
             break;
@@ -67,12 +65,8 @@ public class TaskManager {
         Console.printResponse("Now you have " + taskList.size() + " tasks in the list.");
     }
 
-    public void deleteTask(int taskNum) {
+    public void deleteTask(int taskNum) throws IndexOutOfBoundsException {
         Task task = getTask(taskNum);
-        if (task == null) {
-            return;
-        }
-
         taskList.remove(task);
         exportTaskList();
         Console.printResponse("Noted. I've removed this task:");
@@ -80,38 +74,43 @@ public class TaskManager {
         Console.printResponse("Now you have " + taskList.size() + " tasks in the list.");
     }
 
-    public void markTaskAsDone(int taskNum) {
+    public void markTaskAsDone(int taskNum) throws IndexOutOfBoundsException {
         Task task = getTask(taskNum);
-        if (task == null) {
-            return;
-        }
-
         task.markAsDone();
         exportTaskList();
         Console.printResponse("Nice! I've marked this task as done:");
         Console.printResponse("  " + task);
     }
 
-    public void unmarkTaskAsDone(int taskNum) {
+    public void unmarkTaskAsDone(int taskNum) throws IndexOutOfBoundsException {
         Task task = getTask(taskNum);
-        if (task == null) {
-            return;
-        }
-
         task.unmarkAsDone();
         exportTaskList();
         Console.printResponse("OK, I've marked this task as not done yet:");
         Console.printResponse("  " + task);
     }
 
-    private Task getTask(int taskNum) {
-        taskNum--; // Decrement to utilise as list index
+    public void findTasks(magus.console.Parser parser) {
+        TaskFinder taskFinder = new TaskFinder(taskList);
+        List<Task> filteredTaskList = taskFinder.filterTasks(parser);
 
-        try {
-            return taskList.get(taskNum);
-        } catch (IndexOutOfBoundsException ok) {
-            return null; // Outside range of task list
+        if (filteredTaskList != null) {
+            Console.printResponse("Here are the matching tasks in your list:");
+            printTaskList(filteredTaskList);
         }
+    }
+
+    private void printTaskList(List<Task> taskList) {
+        int taskNum = 1;
+        for (Task task: taskList) {
+            Console.printResponse(taskNum + "." + task.toString());
+            taskNum++;
+        }
+    }
+
+    private Task getTask(int taskNum) throws IndexOutOfBoundsException {
+        taskNum--; // Decrement to utilise as list index
+        return taskList.get(taskNum);
     }
 
     private void importTaskList() {
