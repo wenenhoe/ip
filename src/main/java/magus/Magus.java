@@ -5,6 +5,7 @@ import magus.console.CommandManager;
 import magus.console.Console;
 import magus.console.Parser;
 import magus.exception.CommandNotFoundException;
+import magus.exception.UnknownArgumentException;
 import magus.task.TaskManager;
 
 public class Magus {
@@ -18,10 +19,9 @@ public class Magus {
             Parser parser = new Parser(input);
             try {
                 CommandManager.processInput(parser, taskManager);
-            } catch (CommandNotFoundException e) {
-                String errorContext = String.format("Unknown command in \"%s\"",
-                        parser.getCommandCandidate());
-                Console.printError(new CommandNotFoundException(errorContext));
+            } catch (CommandNotFoundException | UnknownArgumentException e) {
+                String errorScope = "MAGUS";
+                Console.printError(errorScope, e);
             }
 
             // Exit when bye command issued
