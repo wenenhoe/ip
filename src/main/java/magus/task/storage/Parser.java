@@ -10,6 +10,7 @@ public class Parser {
     private TaskType taskType;
     private boolean isDone;
     private String taskInfo;
+    private String[] splitTaskInfo;
 
     public Parser(String storedString) {
         int maxSplitCount = 3; // Obtain the task badge and task completion status
@@ -24,6 +25,7 @@ public class Parser {
 
         isDone = Boolean.parseBoolean(storedStringSplit[1]);
         taskInfo = storedStringSplit[2];
+        splitTaskInfo = taskInfo.split(DELIMITER_REGEX);
     }
 
     public TaskType getTaskType() {
@@ -38,7 +40,7 @@ public class Parser {
         return isDone;
     }
 
-    public static String[] split(String taskInfo) {
-        return taskInfo.split(DELIMITER_REGEX);
+    public String[] getSplitTaskInfo() {
+        return splitTaskInfo;
     }
 }

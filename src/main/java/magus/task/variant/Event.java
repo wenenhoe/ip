@@ -55,8 +55,7 @@ public class Event extends Task {
     }
 
     public static Event parseStoredTaskInfo(Parser parser) {
-        String taskInfo = parser.getTaskInfo();
-        String[] taskInfoSplit = Parser.split(taskInfo);
+        String[] taskInfoSplit = parser.getSplitTaskInfo();
         if (taskInfoSplit.length != 3) {
             return null;
         }

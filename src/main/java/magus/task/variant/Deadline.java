@@ -44,8 +44,7 @@ public class Deadline extends Task {
     }
 
     public static Deadline parseStoredTaskInfo(Parser parser) {
-        String taskInfo = parser.getTaskInfo();
-        String[] taskInfoSplit = Parser.split(taskInfo);
+        String[] taskInfoSplit = parser.getSplitTaskInfo();
         if (taskInfoSplit.length != 2) {
             return null;
         }
