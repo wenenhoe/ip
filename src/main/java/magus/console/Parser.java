@@ -61,7 +61,7 @@ public class Parser {
         return additionalInput;
     }
 
-    public Map<String, String> parseAdditionalInput(boolean isIncludeFirstParam, String ... keywordArgs)
+    public Map<String, String> parseAdditionalInput(boolean isIncludeFirstParam, String... keywordArgs)
             throws ArgumentNotFoundException, UnknownArgumentException {
         boolean hasUnknownArgs = hasUnknownArgument(keywordArgs);
         if (hasUnknownArgs) {
@@ -92,7 +92,7 @@ public class Parser {
         }
     }
 
-    public static String getParsedArgsValue(Map<String, String> parsedArgs, String arg, String ... argNames)
+    public static String getParsedArgsValue(Map<String, String> parsedArgs, String arg, String... argNames)
             throws ArgumentNotFoundException {
         String argValue = parsedArgs.get(arg);
         String argName = arg;
