@@ -15,19 +15,37 @@ import java.util.List;
 import static magus.task.storage.FileIo.readTaskListFile;
 import static magus.task.storage.FileIo.writeTaskListFile;
 
+/**
+ * Manages a collection of Task
+ *
+ * @see magus.task.Task
+ */
 public class TaskManager {
     private final List<Task> taskList;
 
+    /**
+     * Constructor for TaskManager that initialises an empty ArrayList
+     * and imports task list from file system
+     */
     public TaskManager() {
         this.taskList = new ArrayList<>();
         importTaskList();
     }
 
+    /**
+     * Prints all tasks in taskList
+     */
     public void printAllTasks() {
         Console.printResponse("Here are the tasks in your list:");
         printTaskList(taskList);
     }
 
+    /**
+     * Adds a task to the taskList
+     *
+     * @param taskType Type of task
+     * @param parser Console parser that parsed user input
+     */
     public void addTask(TaskType taskType, magus.console.Parser parser) {
         Task task = null;
 
@@ -65,6 +83,12 @@ public class TaskManager {
         Console.printResponse("Now you have " + taskList.size() + " tasks in the list.");
     }
 
+    /**
+     * Delete a task numbered with taskList using one-based indexing
+     *
+     * @param taskNum Task number based on taskList
+     * @throws IndexOutOfBoundsException Unknown task number specified
+     */
     public void deleteTask(int taskNum) throws IndexOutOfBoundsException {
         Task task = getTask(taskNum);
         taskList.remove(task);
@@ -74,6 +98,12 @@ public class TaskManager {
         Console.printResponse("Now you have " + taskList.size() + " tasks in the list.");
     }
 
+    /**
+     * Mark a task done that is numbered with taskList using one-based indexing
+     *
+     * @param taskNum Task number based on taskList
+     * @throws IndexOutOfBoundsException Unknown task number specified
+     */
     public void markTaskAsDone(int taskNum) throws IndexOutOfBoundsException {
         Task task = getTask(taskNum);
         task.markAsDone();
@@ -82,6 +112,12 @@ public class TaskManager {
         Console.printResponse("  " + task);
     }
 
+    /**
+     * Unmark a task done that is numbered with taskList using one-based indexing
+     *
+     * @param taskNum Task number based on taskList
+     * @throws IndexOutOfBoundsException Unknown task number specified
+     */
     public void unmarkTaskAsDone(int taskNum) throws IndexOutOfBoundsException {
         Task task = getTask(taskNum);
         task.unmarkAsDone();
@@ -90,6 +126,11 @@ public class TaskManager {
         Console.printResponse("  " + task);
     }
 
+    /**
+     * Finds tasks that match the conditions specified in user input
+     *
+     * @param parser Console parser that parsed user input
+     */
     public void findTasks(magus.console.Parser parser) {
         TaskFinder taskFinder = new TaskFinder(taskList);
         List<Task> filteredTaskList = taskFinder.filterTasks(parser);
