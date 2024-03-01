@@ -1,5 +1,8 @@
 package magus.console;
 
+/**
+ * Commands supported by chatbot
+ */
 public enum Command {
     UNKNOWN,
     LIST,
@@ -17,6 +20,12 @@ public enum Command {
         return super.toString().toLowerCase();
     }
 
+    /**
+     * Returns enum value based on given command name
+     *
+     * @param name Command name
+     * @return Corresponding enum value or <code>UNKNOWN</code>
+     */
     public static Command getEnum(String name) {
         try {
             return Command.valueOf(name.toUpperCase());

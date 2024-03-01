@@ -1,9 +1,9 @@
 package magus.task.variant;
 
+import magus.console.Parser;
 import magus.exception.ArgumentNotFoundException;
 import magus.exception.UnknownArgumentException;
 import magus.task.Task;
-import magus.task.storage.Parser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -11,52 +11,62 @@ import java.util.Map;
 
 import static magus.task.storage.Parser.DELIMITER;
 
+/**
+ * Task variant Event that stores a description, the start date and end date
+ */
 public class Event extends Task {
     private final LocalDate start;
     private final LocalDate end;
 
+    /**
+     * Constructor for task variant Event
+     *
+     * @param description Describe the event
+     * @param start Start date for task event
+     * @param end End date for task event
+     */
     public Event(String description, LocalDate start, LocalDate end) {
         super(description);
         this.start = start;
         this.end = end;
     }
 
-    public static Event parseConsoleTaskInfo(magus.console.Parser parser)
+    /**
+     * Parses the console input to construct Event
+     *
+     * @param parser Console parser that parsed user input
+     * @return Event object constructed from a console input
+     * @throws ArgumentNotFoundException <code>/from</code> and/or <code>/to</code> argument not found
+     * @throws DateTimeParseException Invalid date specified with <code>/from</code>
+     * and/or <code>/to</code> argument
+     * @throws UnknownArgumentException Unknown argument <code>/?</code> specified
+     * @see magus.console.Parser
+     */
+    public static Event parseConsoleTaskInfo(Parser parser)
             throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
         String descriptionCommand = "";
         String fromCommand = "/from";
         String toCommand = "/to";
-        Map<String, String> parsedArgs = parser.parseAdditionalInput(
-                true,
-                fromCommand,
-                toCommand);
+        Map<String, String> parsedArgs = parser.parseAdditionalInput(true, fromCommand, toCommand);
 
-        String description = parsedArgs.get(descriptionCommand);
-        if (description.isEmpty()) {
-            String errorContext = "Missing description";
-            throw new ArgumentNotFoundException(errorContext);
-        }
-
-        String startString = parsedArgs.get(fromCommand);
-        if (startString.isEmpty()) {
-            String errorContext = String.format("Missing info specified in %s", fromCommand);
-            throw new ArgumentNotFoundException(errorContext);
-        }
+        String description = Parser.getParsedArgsValue(parsedArgs, descriptionCommand, "description");
+        String startString = Parser.getParsedArgsValue(parsedArgs, fromCommand);
         LocalDate start = LocalDate.parse(startString);
-
-        String endString = parsedArgs.get(toCommand);
-        if (endString.isEmpty()) {
-            String errorContext = String.format("Missing info specified in %s", toCommand);
-            throw new ArgumentNotFoundException(errorContext);
-        }
+        String endString = Parser.getParsedArgsValue(parsedArgs, toCommand);
         LocalDate end = LocalDate.parse(endString);
 
         return new Event(description, start, end);
     }
 
-    public static Event parseStoredTaskInfo(Parser parser) {
-        String taskInfo = parser.getTaskInfo();
-        String[] taskInfoSplit = Parser.split(taskInfo);
+    /**
+     * Parses the stored input to construct Event
+     *
+     * @param taskInfoSplit String array of each component to reconstruct Event
+     * @param isDone Whether Event is marked as done
+     * @return Event object restored from a stored string
+     * @see #toStoredString()
+     */
+    public static Event parseStoredTaskInfo(String[] taskInfoSplit, boolean isDone) {
         if (taskInfoSplit.length != 3) {
             return null;
         }
@@ -68,13 +78,9 @@ public class Event extends Task {
         LocalDate end = LocalDate.parse(endString);
         Event event = new Event(description, start, end);
 
-        boolean isDone = parser.isDone();
         if (isDone) {
             event.markAsDone();
-        } else {
-            event.unmarkAsDone();
         }
-
         return event;
     }
 

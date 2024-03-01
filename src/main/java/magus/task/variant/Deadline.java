@@ -1,9 +1,9 @@
 package magus.task.variant;
 
+import magus.console.Parser;
 import magus.exception.ArgumentNotFoundException;
 import magus.exception.UnknownArgumentException;
 import magus.task.Task;
-import magus.task.storage.Parser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -11,41 +11,55 @@ import java.util.Map;
 
 import static magus.task.storage.Parser.DELIMITER;
 
+/**
+ * Task variant Deadline that stores a description and the end date
+ */
 public class Deadline extends Task {
     private final LocalDate end;
 
+    /**
+     * Constructor for task variant Deadline
+     *
+     * @param description Describe the deadline
+     * @param end End date for task deadline
+     */
     public Deadline(String description, LocalDate end) {
         super(description);
         this.end = end;
     }
 
-    public static Deadline parseConsoleTaskInfo(magus.console.Parser parser)
+    /**
+     * Parses the console input to construct Deadline
+     *
+     * @param parser Console parser that parsed user input
+     * @return Deadline object constructed from a console input
+     * @throws ArgumentNotFoundException <code>/by</code> argument not found
+     * @throws DateTimeParseException Invalid date specified with <code>/by</code> argument
+     * @throws UnknownArgumentException Unknown argument <code>/?</code> specified
+     * @see magus.console.Parser
+     */
+    public static Deadline parseConsoleTaskInfo(Parser parser)
             throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
         String descriptionCommand = "";
         String byCommand = "/by";
-        Map<String, String> parsedArgs = parser.parseAdditionalInput(
-                true,
-                byCommand);
+        Map<String, String> parsedArgs = parser.parseAdditionalInput(true, byCommand);
 
-        String description = parsedArgs.get(descriptionCommand);
-        if (description.isEmpty()) {
-            String errorContext = "Missing description";
-            throw new ArgumentNotFoundException(errorContext);
-        }
-
-        String endString = parsedArgs.get(byCommand);
-        if (endString.isEmpty()) {
-            String errorContext = String.format("Missing info specified in %s", byCommand);
-            throw new ArgumentNotFoundException(errorContext);
-        }
+        String description = Parser.getParsedArgsValue(parsedArgs, descriptionCommand, "description");
+        String endString = Parser.getParsedArgsValue(parsedArgs, byCommand);
         LocalDate end = LocalDate.parse(endString);
 
         return new Deadline(description, end);
     }
 
-    public static Deadline parseStoredTaskInfo(Parser parser) {
-        String taskInfo = parser.getTaskInfo();
-        String[] taskInfoSplit = Parser.split(taskInfo);
+    /**
+     * Parses the stored input to construct Deadline
+     *
+     * @param taskInfoSplit String array of each component to reconstruct Deadline
+     * @param isDone Whether Deadline is marked as done
+     * @return Deadline object restored from a stored string
+     * @see #toStoredString()
+     */
+    public static Deadline parseStoredTaskInfo(String[] taskInfoSplit, boolean isDone) {
         if (taskInfoSplit.length != 2) {
             return null;
         }
@@ -55,13 +69,9 @@ public class Deadline extends Task {
         LocalDate end = LocalDate.parse(endString);
         Deadline deadline = new Deadline(description, end);
 
-        boolean isDone = parser.isDone();
         if (isDone) {
             deadline.markAsDone();
-        } else {
-            deadline.unmarkAsDone();
         }
-
         return deadline;
     }
 

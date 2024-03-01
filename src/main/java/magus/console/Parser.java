@@ -11,12 +11,21 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+/**
+ * Parses user input from console into command and additional input
+ */
 public class Parser {
     private final String commandCandidate;
     private final Command command;
     private final String additionalInput;
     private final List<String> additionalInputList;
 
+    /**
+     * Constructor for Parser that parses the user input as such: first word is the Command
+     * and remaining words are additional input
+     *
+     * @param input User input from console
+     */
     public Parser(String input) {
         // Parse first word to get command
         String firstWord = input;
@@ -61,7 +70,20 @@ public class Parser {
         return additionalInput;
     }
 
-    public Map<String, String> parseAdditionalInput(boolean isIncludeFirstParam, String ... keywordArgs)
+    /**
+     * Parses additional input based on keyword arguments such as /from, /to, /by etc.
+     *
+     * @param isIncludeFirstParam Whether to include the first unnamed parameter (i.e. no keyword argument)
+     * @param keywordArgs Keyword arguments such as /from, /to, /by etc.
+     * @return A map of keyword argument to its corresponding value
+     * @throws ArgumentNotFoundException Specified keyword args specified not found
+     * @throws UnknownArgumentException Unknown keyword args found in input
+     * @see #hasUnknownArgument(String[])
+     * @see #getArgIndexes(String[]) 
+     * @see #getArgPositions(boolean, SortedMap) 
+     * @see #getArgs(Map) 
+     */
+    public Map<String, String> parseAdditionalInput(boolean isIncludeFirstParam, String... keywordArgs)
             throws ArgumentNotFoundException, UnknownArgumentException {
         boolean hasUnknownArgs = hasUnknownArgument(keywordArgs);
         if (hasUnknownArgs) {
@@ -84,6 +106,12 @@ public class Parser {
         return getArgs(positions);
     }
 
+    /**
+     * Wrapper method on <code>Integer.parseInt</code>
+     *
+     * @param candidate Candidate string to try parsing to Integer
+     * @return Integer parsed or 0 if unable to parse
+     */
     public static int parseInt(String candidate) {
         try {
             return Integer.parseInt(candidate);
@@ -92,6 +120,35 @@ public class Parser {
         }
     }
 
+    /**
+     * Obtains keyword argument value and checks if it is empty
+     *
+     * @param parsedArgs Parsed arguments returned from <code>parseAdditionalInput</code>
+     * @param arg Keyword argument to obtain
+     * @param argNames Name of keyword argument
+     * @return Value of keyword argument value
+     * @throws ArgumentNotFoundException Keyword argument's value if it is empty
+     */
+    public static String getParsedArgsValue(Map<String, String> parsedArgs, String arg, String... argNames)
+            throws ArgumentNotFoundException {
+        String argValue = parsedArgs.get(arg);
+        String argName = arg;
+        if (argValue.isEmpty()) {
+            if (argNames.length != 0) {
+                argName = argNames[0];
+            }
+            String errorContext = String.format("Missing info specified in %s", argName);
+            throw new ArgumentNotFoundException(errorContext);
+        }
+        return argValue;
+    }
+
+    /**
+     * Checks if keyword args found in additional input that is not in the <code>keywordArgs</code>
+     *
+     * @param keywordArgs Keyword arguments that are whitelisted
+     * @return True if unknown arguments found and false if otherwise
+     */
     private boolean hasUnknownArgument(String[] keywordArgs) {
         String pattern = "^/.+$";
         List<String> keywordArgsList = List.of(keywordArgs);
@@ -102,6 +159,13 @@ public class Parser {
         return !unknownArgsList.isEmpty();
     }
 
+    /**
+     * Obtains a sorted map of arguments and their corresponding indexes
+     *
+     * @param keywordArgs Keyword arguments to obtain
+     * @return A sorted map of arguments and their corresponding indexes
+     * @throws ArgumentNotFoundException Keyword args specified not found in additional input
+     */
     private SortedMap<Integer, String> getArgIndexes(String[] keywordArgs) throws ArgumentNotFoundException {
         SortedMap<Integer, String> indexes = new TreeMap<>();
 
@@ -118,6 +182,13 @@ public class Parser {
         return indexes;
     }
 
+    /**
+     * Obtains a map of keyword args and a pair of positions of each args (start and end indexes)
+     *
+     * @param isIncludeFirstParam Whether to include the first unnamed parameter (i.e. no keyword argument)
+     * @param indexes A sorted map of arguments and their corresponding indexes
+     * @return A map of keyword args and a pair of positions of each args (start and end indexes)
+     */
     private Map<String, Pair<Integer, Integer>> getArgPositions(
             boolean isIncludeFirstParam,
             SortedMap<Integer, String> indexes) {
@@ -156,6 +227,12 @@ public class Parser {
         return positions;
     }
 
+    /**
+     * Obtains a map of keyword args and their corresponding value
+     *
+     * @param positions A map of keyword args and a pair of positions of each args (start and end indexes)
+     * @return A map of keyword args and their corresponding value
+     */
     private Map<String, String> getArgs(Map<String, Pair<Integer, Integer>> positions) {
         Map<String, String> parsedArgs = new HashMap<>();
 
