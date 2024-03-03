@@ -11,7 +11,7 @@ import magus.task.TaskType;
  */
 public class CommandManager {
     /**
-     * Takes the parsed user input and process the relevant command and additional inputs specified
+     * Processes the input to obtain the relevant command and additional inputs specified
      *
      * @param parser Console parser that parsed user input
      * @param taskManager Task manager that interacts with all the different tasks
