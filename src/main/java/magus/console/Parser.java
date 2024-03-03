@@ -28,13 +28,17 @@ public class Parser {
      */
     public Parser(String input) {
         // Parse first word to get command
-        String firstWord = input;
+        String firstWord;
         int firstSpaceIndex = input.indexOf(" ");
         if (firstSpaceIndex != -1) {
+            // Multiple words found, taking first word
             firstWord = input.substring(0, firstSpaceIndex);
+        } else {
+            // Single word input, no space
+            firstWord = input;
         }
         commandCandidate = firstWord;
-        Command command = Command.getEnum(firstWord);
+        Command command = Command.getEnum(commandCandidate);
 
         // Parse additional input
         String additionalInput = "";
