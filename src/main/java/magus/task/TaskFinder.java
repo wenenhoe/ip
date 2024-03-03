@@ -56,10 +56,7 @@ public class TaskFinder {
         case DEADLINE:
             try {
                 filteredTaskList = filterDeadlines(subparser);
-            } catch (ArgumentNotFoundException ignored) {
-                filteredTaskList = filterTasksByDescription(null, subparser, taskType);
-                break;
-            } catch (DateTimeParseException | UnknownArgumentException e) {
+            } catch (DateTimeParseException e) {
                 Console.printError("FIND", e);
                 return null;
             }
@@ -175,12 +172,29 @@ public class TaskFinder {
      *
      * @param parser Console parser that parsed user input containing search date
      * @return List of task filtered from search query
-     * @throws ArgumentNotFoundException Expected argument not found in search query
      * @throws DateTimeParseException Unable to parse date time specified in search query
-     * @throws UnknownArgumentException Unknown argument specified in search query
+     * @see #filterDeadlinesByEnd(Parser) 
+     * @see #filterTasksByDescription(Parser, Parser, TaskType) 
      */
     private List<Task> filterDeadlines(Parser parser)
-            throws ArgumentNotFoundException, DateTimeParseException, UnknownArgumentException {
+            throws DateTimeParseException {
+        try {
+            return filterDeadlinesByEnd(parser);
+        } catch (ArgumentNotFoundException | UnknownArgumentException ignored) {
+            return filterTasksByDescription(null, parser, TaskType.DEADLINE);
+        }
+    }
+
+    /**
+     * Filters Deadline tasks by checking if their date matches the search date
+     *
+     * @param parser Console parser that parsed user input containing search date
+     * @return List of task filtered from search query
+     * @throws UnknownArgumentException Unknown argument specified in search query
+     * @throws ArgumentNotFoundException Expected argument not found in search query
+     */
+    private List<Task> filterDeadlinesByEnd(Parser parser)
+            throws UnknownArgumentException, ArgumentNotFoundException {
         String byCommand = "/by";
         Map<String, String> parsedArgs = parser.parseAdditionalInput(false, byCommand);
 
