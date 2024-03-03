@@ -52,15 +52,7 @@ public class TaskFinder {
         List<Task> filteredTaskList;
         switch (taskType) {
         case TODO:
-            try {
-                filteredTaskList = filterTodos(subparser);
-            } catch (ArgumentNotFoundException ignored) {
-                // break out and try filter by description
-                break;
-            } catch (UnknownArgumentException e) {
-                Console.printError("FIND", e);
-                return filteredTaskList;
-            }
+            filteredTaskList = filterTodos(subparser);
             break;
         case DEADLINE:
             try {
@@ -168,21 +160,15 @@ public class TaskFinder {
     }
 
     /**
-     * Filters Todo tasks by checking if their description contain the search terms
+     * Filters Todo tasks by checking if their description contain the search terms.
+     * Wrapper method on filterTasksByDescription
      *
-     * @param parser Console parser that parsed user input containing
+     * @param parser Console parser that parsed task-specific user input containing description
      * @return List of task filtered from search query
-     * @throws ArgumentNotFoundException Expected argument not found in search query
-     * @throws UnknownArgumentException Unknown argument specified in search query
+     * @see #filterTasksByDescription(Parser, Parser, TaskType)
      */
-    private List<Task> filterTodos(Parser parser)
-            throws ArgumentNotFoundException, UnknownArgumentException {
-        Map<String, String> parsedArgs = parser.parseAdditionalInput(true);
-        String searchString = parsedArgs.get(""); // non-keyword arg
-        return taskList.stream()
-                .filter(t -> t instanceof Todo
-                        && t.getDescription().contains(searchString))
-                .collect(Collectors.toList());
+    private List<Task> filterTodos(Parser parser) {
+        return filterTasksByDescription(null, parser, TaskType.TODO);
     }
 
     /**
