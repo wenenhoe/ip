@@ -15,9 +15,8 @@ public class Magus {
     public static void main(String[] args) {
         TaskManager taskManager = new TaskManager();
         Console.printWelcomeMessage();
-        boolean isExitProgram = false;
 
-        while (!isExitProgram) {
+        while (true) {
             String input = Console.getUserInput();
             Parser parser = new Parser(input);
             try {
@@ -27,8 +26,11 @@ public class Magus {
                 Console.printError(errorScope, e);
             }
 
-            // Exit when bye command issued
-            isExitProgram = parser.getCommand() == Command.BYE;
+            boolean isExitProgram = parser.getCommand() == Command.BYE;
+            if (isExitProgram) {
+                // Exit loop when bye command issued
+                break;
+            }
         }
     }
 }
