@@ -49,7 +49,7 @@ public class TaskFinder {
         String taskTypeString = subparser.getCommandCandidate();
         TaskType taskType = TaskType.getEnum(taskTypeString);
 
-        List<Task> filteredTaskList = null;
+        List<Task> filteredTaskList;
         switch (taskType) {
         case TODO:
             try {
@@ -66,7 +66,7 @@ public class TaskFinder {
             try {
                 filteredTaskList = filterDeadlines(subparser);
             } catch (ArgumentNotFoundException ignored) {
-                // break out and try filter by description
+                filteredTaskList = filterTasksByDescription(null, subparser, taskType);
                 break;
             } catch (DateTimeParseException | UnknownArgumentException e) {
                 Console.printError("FIND", e);
@@ -85,24 +85,13 @@ public class TaskFinder {
             try {
                 filteredTaskList = filterTasksByDate(parser);
             } catch (ArgumentNotFoundException e) {
-                // break out and try filter by description
+                filteredTaskList = filterTasksByDescription(parser, subparser, taskType);
                 break;
             } catch (DateTimeParseException | UnknownArgumentException e) {
                 Console.printError("FIND", e);
                 return null;
             }
             break;
-        }
-
-        if (filteredTaskList == null) {
-            try {
-                filteredTaskList = filterTasksByDescription(parser, subparser, taskType);
-            } catch (UnknownArgumentException e) {
-                Console.printError("FIND", e);
-                return filteredTaskList;
-            } catch (ArgumentNotFoundException e) {
-                return new ArrayList<>();
-            }
         }
 
         return filteredTaskList;
@@ -112,35 +101,43 @@ public class TaskFinder {
      * Filters tasks by checking if their description contain the search terms
      *
      * @param parser Console parser that parsed user input without task type
+     *               or null if using task type specific parser <code>subparser</code>
      * @param subparser Console parser that parsed user input with task type
      * @param taskType Task type to filter by
      * @return List of task filtered from search query
-     * @throws UnknownArgumentException Unknown argument specified in search query
-     * @throws ArgumentNotFoundException Expected argument not found in search query
      */
-    private List<Task> filterTasksByDescription(Parser parser, Parser subparser, TaskType taskType)
-            throws UnknownArgumentException, ArgumentNotFoundException {
-        String searchString = parser.parseAdditionalInput(true).get(""); // non-keyword arg
-        String taskSpecificSearchString = subparser.getAdditionalInput();
+    private List<Task> filterTasksByDescription(Parser parser, Parser subparser, TaskType taskType) {
+        String searchString;
+        Map<String, String> parsedArgs;
+
+        try {
+            if (taskType != TaskType.UNKNOWN) {
+                // task specific search string
+                parsedArgs = subparser.parseAdditionalInput(true);
+            } else {
+                // search string for all types of tasks
+                parsedArgs = parser.parseAdditionalInput(true);
+            }
+            searchString = Parser.getParsedArgsValue(parsedArgs, "", "description"); // non-keyword arg
+        } catch (UnknownArgumentException | ArgumentNotFoundException e) {
+            Console.printError("FIND", e);
+            return null;
+        }
 
         Stream<Task> taskStream = taskList.stream();
         switch (taskType) {
         case TODO:
             taskStream = taskStream.filter(t -> t instanceof Todo);
-            searchString = taskSpecificSearchString;
             break;
         case DEADLINE:
             taskStream = taskStream.filter(t -> t instanceof Deadline);
-            searchString = taskSpecificSearchString;
             break;
         case EVENT:
             taskStream = taskStream.filter(t -> t instanceof Event);
-            searchString = taskSpecificSearchString;
             break;
         }
 
-        String finalSearchString = searchString;
-        return taskStream.filter(t -> t.getDescription().contains(finalSearchString))
+        return taskStream.filter(t -> t.getDescription().contains(searchString))
                 .collect(Collectors.toList());
     }
 
