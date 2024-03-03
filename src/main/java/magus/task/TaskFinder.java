@@ -194,14 +194,15 @@ public class TaskFinder {
     }
 
     /**
-     * Filters Deadline tasks by checking if their date matches the search date
+     * Filters Event tasks by checking if their date matches the search date
      *
-     * @param parser Console parser that parsed user input containing search date
+     * @param parser Console parser that parsed task-specific user input
      * @return List of task filtered from search query
      * @throws DateTimeParseException Unable to parse date time specified in search query
      * @see #filterEventsByStartAndEnd(Parser)
      * @see #filterEventsByStart(Parser)
      * @see #filterEventsByEnd(Parser)
+     * @see #filterTasksByDescription(Parser, Parser, TaskType) 
      */
     private List<Task> filterEvents(Parser parser)
             throws DateTimeParseException {
@@ -210,17 +211,20 @@ public class TaskFinder {
         } catch (ArgumentNotFoundException | UnknownArgumentException ignored) {
             // continue the next filter type
         }
+
         try {
             return filterEventsByStart(parser);
         } catch (ArgumentNotFoundException | UnknownArgumentException ignored) {
             // continue the next filter type
         }
+
         try {
             return filterEventsByEnd(parser);
         } catch (ArgumentNotFoundException | UnknownArgumentException ignored) {
-            // unknown (combination) of args
-            return null;
+            // continue the next filter type
         }
+
+        return filterTasksByDescription(null, parser, TaskType.EVENT);
     }
 
     /**
