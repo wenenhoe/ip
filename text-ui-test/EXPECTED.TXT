@@ -96,7 +96,7 @@ What can I do for you?
 -----------------------------------------------
 > MAGUS magus.exception.CommandNotFoundException: Unknown command in "goodbye"
 -----------------------------------------------
-> TODO magus.exception.ArgumentNotFoundException: Missing description
+> TODO magus.exception.ArgumentNotFoundException: Missing info specified in description
 -----------------------------------------------
 > TODO magus.exception.UnknownArgumentException: Unknown argument found in "hello /remarks world"
 -----------------------------------------------
