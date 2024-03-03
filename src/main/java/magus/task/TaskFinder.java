@@ -36,7 +36,8 @@ public class TaskFinder {
      * filter by description.
      *
      * @param parser Console parser that parsed user input
-     * @return List of task filtered from search query
+     * @return List of task filtered from search query or
+     * <code>null</code> if error encountered
      * @see #filterTodos(Parser)
      * @see #filterEvents(Parser)
      * @see #filterDeadlines(Parser)
@@ -69,7 +70,7 @@ public class TaskFinder {
                 break;
             } catch (DateTimeParseException | UnknownArgumentException e) {
                 Console.printError("FIND", e);
-                return filteredTaskList;
+                return null;
             }
             break;
         case EVENT:
@@ -77,7 +78,7 @@ public class TaskFinder {
                 filteredTaskList = filterEvents(subparser);
             } catch (DateTimeParseException e) {
                 Console.printError("FIND", e);
-                return filteredTaskList;
+                return null;
             }
             break;
         default:
@@ -88,7 +89,7 @@ public class TaskFinder {
                 break;
             } catch (DateTimeParseException | UnknownArgumentException e) {
                 Console.printError("FIND", e);
-                return filteredTaskList;
+                return null;
             }
             break;
         }
