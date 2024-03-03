@@ -86,7 +86,7 @@ What can I do for you?
 -----------------------------------------------
 > FIND magus.exception.UnknownArgumentException: Unknown argument found in "lecture /until 2024-03-16"
 -----------------------------------------------
-> FIND magus.exception.UnknownArgumentException: Unknown argument found in "event /from 2024-03-14 /to 2024-03-16 /remarks urgent"
+> FIND magus.exception.UnknownArgumentException: Unknown argument found in "/from 2024-03-14 /to 2024-03-16 /remarks urgent"
 -----------------------------------------------
 > FIND magus.exception.UnknownArgumentException: Unknown argument found in "/by 2024-03-10 /urgent"
 -----------------------------------------------
